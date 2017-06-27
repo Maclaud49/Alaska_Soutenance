@@ -1,0 +1,46 @@
+{% extends "layout.html.twig" %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% form_theme commentForm 'bootstrap_3_horizontal_layout.html.twig' %}
+{% endif %}
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
+    {% else %}
+        No comments yet.
+    {% endfor %}
+
+    <h3>Add a comment</h3>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+   
+        {{ form_start(commentForm) }}
+
+        {{ form_row(commentForm.email) }}
+        {{ form_widget(commentForm.email) }}
+
+        {{ form_row(commentForm.website) }}
+        {{ form_widget(commentForm.website) }}
+
+        {{ form_row(commentForm.content) }}
+        {{ form_widget(commentForm.content) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-3">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+        {{ form_end(commentForm) }}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <a href="{{ path('login') }}">Log in</a> to add comments.
+    {% endif %}
+{% endblock %}
