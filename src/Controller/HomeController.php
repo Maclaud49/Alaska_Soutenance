@@ -38,11 +38,12 @@ class HomeController {
             $comment->setArticle($article);
             $user = $app['user'];
             $comment->setAuthor($user);
+            $comment->setCommentDate(date("Y-m-d H:i:s"));
             $commentForm = $app['form.factory']->create(CommentType::class, $comment);
             $commentForm->handleRequest($request);
             if ($commentForm->isSubmitted() && $commentForm->isValid()) {
                 $app['manager.comment']->save($comment);
-                $app['session']->getFlashBag()->add('success', 'Your comment was successfully added.');
+                $app['session']->getFlashBag()->add('success', 'Votre commentaire a été mis en ligne.');
             }
             $commentFormView = $commentForm->createView();
         }

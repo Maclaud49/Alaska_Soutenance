@@ -26,6 +26,13 @@ class Comment
     private $content;
 
     /**
+     * Comment date.
+     *
+     * @var String
+     */
+    private $commentDate;
+
+    /**
      * Associated article.
      *
      * @var \Alaska\Domain\Article
@@ -68,7 +75,22 @@ class Comment
         $this->article = $article;
         return $this;
     }
-    
+
+    /**
+     * @return String
+     */
+    public function getCommentDate()
+    {
+        return $this->commentDate;
+    }
+
+    /**
+     * @param String $commentDate
+     */
+    public function setCommentDate($commentDate)
+    {
+        $this->commentDate = $commentDate;
+    }
 
 
 }

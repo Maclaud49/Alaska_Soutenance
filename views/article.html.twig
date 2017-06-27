@@ -8,30 +8,24 @@
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
 
-    <h3>Comments</h3>
+    <h3>Commentaires</h3>
     {% for comment in comments %}
-        <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
+        <em>{{ comment.CommentDate }}</em> <strong>{{ comment.author.username }}</strong> dit : {{ comment.content }}<br>
     {% else %}
-        No comments yet.
+        Pas de commentaires.
     {% endfor %}
 
-    <h3>Add a comment</h3>
+    <h3>Ajouter un commentaire</h3>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
    
         {{ form_start(commentForm) }}
-
-        {{ form_row(commentForm.email) }}
-        {{ form_widget(commentForm.email) }}
-
-        {{ form_row(commentForm.website) }}
-        {{ form_widget(commentForm.website) }}
 
         {{ form_row(commentForm.content) }}
         {{ form_widget(commentForm.content) }}
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-3">
-                <input type="submit" class="btn btn-primary" value="Save" />
+                <input type="submit" class="btn btn-primary" value="Mettre en ligne" />
             </div>
         </div>
         {{ form_end(commentForm) }}
@@ -41,6 +35,6 @@
             </div>
         {% endfor %}
     {% else %}
-        <a href="{{ path('login') }}">Log in</a> to add comments.
+        <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">S'enregistrer</a> pour ajouter un commentaire.
     {% endif %}
 {% endblock %}

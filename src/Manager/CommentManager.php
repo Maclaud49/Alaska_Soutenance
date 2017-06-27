@@ -55,7 +55,7 @@ class CommentManager extends Manager
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, usr_id from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content,DATE_FORMAT(com_date, '%d/%m/%Y %Hh%imin') AS com_date, usr_id from t_comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
         // Convert query result to an array of domain objects
@@ -98,6 +98,7 @@ class CommentManager extends Manager
             'art_id' => $comment->getArticle()->getId(),
             'usr_id' => $comment->getAuthor()->getId(),
             'com_content' => $comment->getContent(),
+            'com_date' => $comment->getCommentDate()
             );
 
         if ($comment->getId()) {
@@ -150,6 +151,7 @@ class CommentManager extends Manager
         $comment = new Comment();
         $comment->setId($row['com_id']);
         $comment->setContent($row['com_content']);
+        $comment->setCommentDate($row['com_date']);
 
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article

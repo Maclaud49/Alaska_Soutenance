@@ -20,6 +20,7 @@ create table t_user (
 create table t_comment (
     com_id integer not null primary key auto_increment,
     com_content varchar(500) not null,
+    com_date datetime not null,
     art_id integer not null,
     usr_id integer not null,
     constraint fk_com_art foreign key(art_id) references t_article(art_id),
