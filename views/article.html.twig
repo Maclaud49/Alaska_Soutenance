@@ -10,13 +10,51 @@
 
     <h3>Commentaires</h3>
 
+    {#allow to add margin is same author#}
     {% set marqueur=0 %}
+
     {% for comment in comments %}
         {% if comment.author.id != marqueur %}
-            <strong>{{ comment.author.username }}  : </strong>{{ comment.content }}<em> ----- {{ comment.CommentDate }}</em><span style="margin-left: 20px"><a href="{{ path('report_comment',{ 'idcomment': comment.id ,'idarticle': article.id }) }}">Signaler ce commentaire</a></span>
+            <article class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <header class="text-right">
+                                <div class="comment-user"><i class="fa fa-user"></i> {{ comment.author.username }}</div>
+                                <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>{{ comment.CommentDate }}</time>
+                            </header>
+                            <div class="comment-post">
+                                <p>
+                                    {{ comment.content }}
+                                </p>
+                            </div>
+                            <p class="text-right"><a href="{{ path('report_comment',{ 'idcomment': comment.id ,'idarticle': article.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
             {% set marqueur=comment.author.id %}
         {% else %}
-            <div style="margin-left: 20px"><strong>{{ comment.author.username }}  : </strong>{{ comment.content }}<em> ----- {{ comment.CommentDate }}</em><span style="margin-left: 20px"><a href="{{ path('report_comment',{ 'idcomment': comment.id,'idarticle': article.id }) }}">Signaler ce commentaire</a></span></div>
+                <article class="row" style="margin-left: 20px">
+                    <div class="col-md-10 col-sm-10">
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <header class="text-right">
+                                    <div class="comment-user"><i class="fa fa-user"></i> {{ comment.author.username }}</div>
+                                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>{{ comment.CommentDate }}</time>
+                                </header>
+                                <div class="comment-post">
+                                    <p>
+                                        {{ comment.content }}
+                                    </p>
+                                </div>
+                                <p class="text-right"><a href="{{ path('report_comment',{ 'idcomment': comment.id ,'idarticle': article.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             {% set marqueur=comment.author.id %}
         {% endif %}
     {% else %}
