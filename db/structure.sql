@@ -31,5 +31,6 @@ create table t_comment_reported (
     com_rep_id integer not null primary key auto_increment,
     com_rep_date datetime not null,
     com_id integer not null,
+    com_rep_counter integer not null,
     constraint fk_com_rep_com foreign key(com_id) references t_comment(com_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

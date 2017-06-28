@@ -60,10 +60,16 @@ $app['manager.user'] = function ($app) {
     return new Alaska\Manager\UserManager($app['db']);
 };
 $app['manager.comment'] = function ($app) {
-    $commentManager = new Alaska\Manager\CommentManager($app['db']);
-    $commentManager->setArticleManager($app['manager.article']);
-    $commentManager->setUserManager($app['manager.user']);
-    return $commentManager;
+        $commentManager = new Alaska\Manager\CommentManager($app['db']);
+        $commentManager->setArticleManager($app['manager.article']);
+        $commentManager->setUserManager($app['manager.user']);
+        return $commentManager;
+};
+
+$app['manager.commentReported'] = function ($app) {
+    $commentReportedManager = new Alaska\Manager\CommentReportedManager($app['db']);
+    $commentReportedManager->setCommentManager($app['manager.comment']);
+    return $commentReportedManager;
 };
 
 

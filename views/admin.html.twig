@@ -15,6 +15,7 @@
         <ul class="nav nav-tabs nav-justified">
             <li class="active"><a href="#articles" data-toggle="tab">Articles</a></li>
             <li><a href="#comments" data-toggle="tab">Commentaires</a></li>
+            <li><a href="#commentsReported" data-toggle="tab">Modération</a></li>
             <li><a href="#users" data-toggle="tab">Utilisateurs</a></li>
         </ul>
     </div>
@@ -67,7 +68,7 @@
         <a href="{{ path('admin_article_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter un article</button></a>
     </div>
     <div class="tab-pane fade adminTable" id="comments">
-        <!-- Insérer ici le code de gestion des commentaires -->
+
         {% if comments %}
         <div class="table-responsive">
             <table class="table table-hover table-condensed">
@@ -112,6 +113,53 @@
         </div>
         {% else %}
         <div class="alert alert-warning">Pas de commentaires.</div>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade adminTable" id="commentsReported">
+        {% if commentsReported %}
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Commentaire</th>
+                        <th>Auteur</th>
+                        <th>Nombre de signalement</th>
+                        <th></th>  <!-- Actions column -->
+                    </tr>
+                    </thead>
+                    {% for commentReported in commentsReported %}
+                        <tr>
+                            <td><a class="articleTitle" href="{{ path('article', { 'id': commentReported.comment.article.id }) }}">{{ commentReported.comment.content | truncate(60) }}</a></td>
+                            <td>{{ commentReported.comment.author.username }}</td>
+                            <td>{{ commentReported.counter }}</td>
+                            <td>
+                                <a href="{{ path('admin_comment_edit', { 'id': commentReported.comment.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                                <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ commentReported.comment.id }}"><span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                                <div class="modal fade" id="commentDialog{{ commentReported.comment.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Merci de confirmer</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Supprimer ce commentaire ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                                <a href="{{ path('admin_comment_delete', { 'id': commentReported.comment.id }) }}" class="btn btn-danger">Confirmer</a>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">Pas de commentaires.</div>
         {% endif %}
     </div>
     <div class="tab-pane fade adminTable" id="users">

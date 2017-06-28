@@ -21,10 +21,12 @@ class AdminController {
         $articles = $app['manager.article']->findAll();
         $comments = $app['manager.comment']->findAll();
         $users = $app['manager.user']->findAll();
+        $commentsReported =$app['manager.commentReported']->findAll();
         return $app['twig']->render('admin.html.twig', array(
             'articles' => $articles,
             'comments' => $comments,
-            'users' => $users));
+            'users' => $users,
+            'commentsReported' =>$commentsReported));
     }
 
     /**
@@ -42,7 +44,7 @@ class AdminController {
             $app['session']->getFlashBag()->add('success', 'The article was successfully created.');
         }
         return $app['twig']->render('article_form.html.twig', array(
-            'title' => 'New article',
+            'title' => 'Nouvel article',
             'articleForm' => $articleForm->createView()));
     }
 
@@ -62,7 +64,7 @@ class AdminController {
             $app['session']->getFlashBag()->add('success', 'The article was successfully updated.');
         }
         return $app['twig']->render('article_form.html.twig', array(
-            'title' => 'Edit article',
+            'title' => 'Editer l\'article',
             'articleForm' => $articleForm->createView()));
     }
 
