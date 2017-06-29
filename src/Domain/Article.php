@@ -2,7 +2,7 @@
 
 namespace Alaska\Domain;
 
-class Article 
+class Article
 {
     /**
      * Article id.
@@ -24,6 +24,56 @@ class Article
      * @var string
      */
     private $content;
+
+    /**
+     * Article visibility.
+     *
+     * @var boolean
+     */
+    private $visible;
+
+    /**
+     * @return bool
+     */
+    public function isVisible()
+    {
+        if($this->visible==0){
+            return false;
+        }
+        else return true;
+    }
+
+    /**
+     * @param bool $visible
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChapter()
+    {
+        return $this->chapter;
+    }
+
+    /**
+     * @param int $chapter
+     */
+    public function setChapter($chapter)
+    {
+        $this->chapter = $chapter;
+    }
+
+    /**
+     * Article chapter.
+     *
+     * @var int
+     */
+    private $chapter;
+
 
     public function getId() {
         return $this->id;

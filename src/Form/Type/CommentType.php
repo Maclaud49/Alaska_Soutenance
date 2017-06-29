@@ -15,7 +15,7 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('content', TextareaType::class,[
-                    'label'       => 'Votre commentaire',
+                    'label'       => 'Apporter une modification',
                     'required'    => true,
                     'constraints' => new Assert\NotBlank(),
         ]);

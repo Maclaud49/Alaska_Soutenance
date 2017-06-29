@@ -25,6 +25,42 @@ class ArticleManager extends Manager
     }
 
     /**
+     * Return a list of all visible articles, sorted by date (most recent first).
+     *
+     * @return array A list of all visible articles.
+     */
+    public function findAllVisible() {
+        $sql = "select * from t_article where art_visible='1' order by art_id desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $articles = array();
+        foreach ($result as $row) {
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
+        }
+        return $articles;
+    }
+
+    /**
+     * Return a list of all draft articles, sorted by date (most recent first).
+     *
+     * @return array A list of all draft articles.
+     */
+    public function findAllDraft() {
+        $sql = "select * from t_article where art_visible='0' order by art_id desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $articles = array();
+        foreach ($result as $row) {
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
+        }
+        return $articles;
+    }
+
+    /**
      * Returns an article matching the supplied id.
      *
      * @param integer $id The article id.
@@ -51,6 +87,8 @@ class ArticleManager extends Manager
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
+            'art_chapter' => $article->getChapter(),
+            'art_visible' => $article->isVisible()
             );
 
         if ($article->getId()) {
@@ -87,6 +125,24 @@ class ArticleManager extends Manager
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
+        $article->setChapter($row['art_chapter']);
+        $article->setVisible($row['art_visible']);
         return $article;
+    }
+
+    /**
+     * Check the chapter number is available.
+     *
+     * @param int chapter number.
+     * @return boolean
+     */
+
+    public function checkChapter($chapter) {
+        $sql = "select count(art_chapter) as chapter from t_article where art_chapter=$chapter";
+        $result = $this->getDb()->fetchColumn($sql);
+
+        if($result>=1){return false;}
+        else return true;
+
     }
 }

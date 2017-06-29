@@ -11,15 +11,26 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-warning">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 
     <div class="well">
         {{ form_start(articleForm) }}
         
-        {{ form_row(articleForm.title)}}                   
+        {{ form_row(articleForm.title)}}
         {{ form_widget(articleForm.title)}}
 
         {{ form_row(articleForm.content) }}
         {{ form_widget(articleForm.content) }}
+
+        {{ form_row(articleForm.chapter)}}
+        {{ form_widget(articleForm.chapter)}}
+
+        {{ form_row(articleForm.visible) }}
+        {{ form_widget(articleForm.visible) }}
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-3">

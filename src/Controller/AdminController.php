@@ -2,6 +2,7 @@
 
 namespace Alaska\Controller;
 
+use Doctrine\DBAL\Driver\PDOException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Alaska\Domain\Article;
@@ -9,6 +10,7 @@ use Alaska\Domain\User;
 use Alaska\Form\Type\ArticleType;
 use Alaska\Form\Type\CommentType;
 use Alaska\Form\Type\UserType;
+
 
 class AdminController {
 
@@ -56,13 +58,20 @@ class AdminController {
      * @param Application $app Silex application
      */
     public function editArticleAction($id, Request $request, Application $app) {
+
         $article = $app['manager.article']->find($id);
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
-        if ($articleForm->isSubmitted() && $articleForm->isValid()) {
-            $app['manager.article']->save($article);
-            $app['session']->getFlashBag()->add('success', 'The article was successfully updated.');
-        }
+            if ($articleForm->isSubmitted() && $articleForm->isValid()) {
+                if ($app['manager.article']->checkChapter($article->getChapter())) {
+                    $app['manager.article']->save($article);
+                    $app['session']->getFlashBag()->add('success', 'L\'article a été modifié.');
+                } else {
+                    $test = $app['manager.article']->checkChapter($article->getChapter());
+                    $app['session']->getFlashBag()->add('error', 'Ce numéro de chapitre est déjà assigné.'.$test);
+                }
+            }
+
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Editer l\'article',
             'articleForm' => $articleForm->createView()));
@@ -77,9 +86,10 @@ class AdminController {
     public function deleteArticleAction($id, Application $app) {
         // Delete all associated comments
         $app['manager.comment']->deleteAllByArticle($id);
+
         // Delete the article
         $app['manager.article']->delete($id);
-        $app['session']->getFlashBag()->add('success', 'The article was successfully removed.');
+        $app['session']->getFlashBag()->add('success', 'L\'article a été supprimé.');
         // Redirect to admin home page
         return $app->redirect($app['url_generator']->generate('admin'));
     }
@@ -97,10 +107,10 @@ class AdminController {
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $app['manager.comment']->save($comment);
-            $app['session']->getFlashBag()->add('success', 'The comment was successfully updated.');
+            $app['session']->getFlashBag()->add('success', 'Le commentaire a été modifié.');
         }
         return $app['twig']->render('comment_form.html.twig', array(
-            'title' => 'Edit comment',
+            'title' => 'Mofidier le commentaire',
             'commentForm' => $commentForm->createView()));
     }
 
@@ -111,8 +121,10 @@ class AdminController {
      * @param Application $app Silex application
      */
     public function deleteCommentAction($id, Application $app) {
+        // Delete all associated reported comments
+        $app['manager.commentReported']->deleteAllByComment($id);
         $app['manager.comment']->delete($id);
-        $app['session']->getFlashBag()->add('success', 'The comment was successfully removed.');
+        $app['session']->getFlashBag()->add('success', 'Le commentaire a été supprimé.');
         // Redirect to admin home page
         return $app->redirect($app['url_generator']->generate('admin'));
     }

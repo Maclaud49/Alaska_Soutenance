@@ -19,7 +19,7 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function indexAction(Application $app) {
-        $articles = $app['manager.article']->findAll();
+        $articles = $app['manager.article']->findAllVisible();
         return $app['twig']->render('index.html.twig', array('articles' => $articles));
     }
     
@@ -91,7 +91,7 @@ class HomeController {
             $user->setPassword($password);
             $user->setRole('ROLE_USER');
             $app['manager.user']->save($user);
-            $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été enregistré.');
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien enregistré.');
         }
         return $app['twig']->render('user_registration_form.html.twig', array(
             'title' => 'Inscription',

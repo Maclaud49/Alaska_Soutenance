@@ -5,7 +5,9 @@ drop table if exists t_article;
 create table t_article (
     art_id integer not null primary key auto_increment,
     art_title varchar(100) not null,
-    art_content varchar(2000) not null
+    art_content varchar(2000) not null,
+    art_chapter integer not null,
+    art_visible boolean not null
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table t_user (
@@ -32,5 +34,5 @@ create table t_comment_reported (
     com_rep_date datetime not null,
     com_id integer not null,
     com_rep_counter integer not null,
-    constraint fk_com_rep_com foreign key(com_id) references t_comment(com_id)
+    constraint fk_com_rep_com foreign key(com_id) references t_comment(com_id) on delete cascade
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

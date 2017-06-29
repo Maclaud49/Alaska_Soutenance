@@ -61,6 +61,30 @@ class CommentReportedManager extends Manager
     }
 
     /**
+     * Return a list of all reported comments for an article
+     *
+     * @param integer $articleId The comment id.
+     *
+     * @return array A list of all reported comments for the article.
+     */
+    public function findAllByArticle($articleId) {
+
+
+        $sql = "select * from t_comment, t_comment_reported where art_id=? and t_comment.com_id=t_comment_reported.com_id";
+        $result = $this->getDb()->fetchAll($sql, array($articleId));
+
+        // Convert query result to an array of domain objects
+        $commentsReported = array();
+        foreach ($result as $row) {
+            $comRepId = $row['com_rep_id'];
+            $commentReported = $this->buildDomainObject($row);
+            // The associated comment is defined for the constructed reported comment
+            $commentsReported[$comRepId] = $commentReported;
+        }
+        return $commentsReported;
+    }
+
+    /**
      * Return a reported comment for an comment
      *
      * @param integer $commentId The comment id.
@@ -126,5 +150,26 @@ class CommentReportedManager extends Manager
             $commentReported->setId($id);
 
         }
+    }
+
+
+
+    /**
+     * Removes all reported comments for a user
+     *
+     * @param integer $userId The id of the user
+     */
+    public function deleteAllByComment($comId) {
+        $this->getDb()->delete('t_comment_reported', array('com_id' => $comId));
+    }
+
+    /**
+     * Removes a comment from the database.
+     *
+     * @param integer $id The reported comment id
+     */
+    public function delete($id) {
+        // Delete the reported comment
+        $this->getDb()->delete('t_comment_reported', array('com_id' => $id));
     }
 }

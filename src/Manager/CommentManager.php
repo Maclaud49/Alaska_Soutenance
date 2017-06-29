@@ -141,6 +141,8 @@ class CommentManager extends Manager
         $this->getDb()->delete('t_comment', array('com_id' => $id));
     }
 
+
+
     /**
      * Creates an Comment object based on a DB row.
      *
