@@ -56,7 +56,8 @@ class UserManager extends Manager implements UserProviderInterface
             'usr_email' => $user->getEmail(),
             'usr_salt' => $user->getSalt(),
             'usr_password' => $user->getPassword(),
-            'usr_role' => $user->getRole()
+            'usr_role' => $user->getRole(),
+            'usr_lastViewArt' => $user->getLastViewArt(),
             );
 
         if ($user->getId()) {
@@ -129,6 +130,7 @@ class UserManager extends Manager implements UserProviderInterface
         $user->setPassword($row['usr_password']);
         $user->setSalt($row['usr_salt']);
         $user->setRole($row['usr_role']);
+        $user->setLastViewArt($row['usr_lastViewArt']);
         return $user;
     }
 }

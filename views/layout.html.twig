@@ -35,6 +35,13 @@
                                     <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-book"></span> Dernier chapitre lu<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('article', { 'id': app.user.lastViewArt }) }}">Chapitre {{ app.user.lastViewArt }} </a></li>
+                                </ul>
+                            </li>
                         {% else %}
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

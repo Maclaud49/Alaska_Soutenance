@@ -43,6 +43,10 @@ class HomeController {
             $comment = new Comment();
             $comment->setArticle($article);
             $user = $app['user'];
+
+            //Register the viewed art id so we can welcome him remimding last read chapter
+            $user->setLastViewArt($id);
+            $app['manager.user']->save($user);
             $comment->setAuthor($user);
             $comment->setCommentDate(date("Y-m-d H:i:s"));
             $commentForm = $app['form.factory']->create(CommentType::class, $comment);

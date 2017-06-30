@@ -7,11 +7,34 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     /**
-     * User id.
+ * User id.
+ *
+ * @var integer
+ */
+    private $id;
+
+    /**
+     * User last view article.
      *
      * @var integer
      */
-    private $id;
+    private $lastViewArt;
+
+    /**
+     * @return int
+     */
+    public function getLastViewArt()
+    {
+        return $this->lastViewArt;
+    }
+
+    /**
+     * @param int $lastViewArt
+     */
+    public function setLastViewArt($lastViewArt)
+    {
+        $this->lastViewArt = $lastViewArt;
+    }
 
     /**
      * User name.
