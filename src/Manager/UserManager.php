@@ -42,7 +42,7 @@ class UserManager extends Manager implements UserProviderInterface
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new \Exception("No user matching id " . $id);
+            throw new \Exception("Pas d'utilisateur correspondant" . $id);
     }
 
     /**
@@ -102,7 +102,7 @@ class UserManager extends Manager implements UserProviderInterface
     {
         $class = get_class($user);
         if (!$this->supportsClass($class)) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $class));
+            throw new UnsupportedUserException(sprintf('Instances de "%s" ne sont pas possibles.', $class));
         }
         return $this->loadUserByUsername($user->getUsername());
     }

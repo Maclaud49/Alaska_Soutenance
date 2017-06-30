@@ -29,7 +29,7 @@
                     <tr>
                         <th>Titre</th>
                         <th>Contenu</th>
-                        <th>N° chapitre</th>
+                        <th>Chapitre</th>
                         <th>Status</th>
 
                         <th></th>  <!-- Actions column -->
@@ -39,7 +39,7 @@
                 <tr>
                     <td><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
                     <td>{{ article.content | truncate(60) }}</td>
-                    <td>{{ article.chapter }}</td>
+                    <td class="text-center">{{ article.chapter }}</td>
                     <td>{% if  article.visible == 1  %}
                         <p>Publié</p>
                         {% else %}
@@ -85,6 +85,7 @@
                 <thead>
                     <tr>
                         <th>Article</th>
+                        <th>Chapitre</th>
                         <th>Auteur</th>
                         <th>Contenu</th>
                         <th></th>  <!-- Actions column -->
@@ -93,6 +94,7 @@
                 {% for comment in comments %}
                 <tr>
                     <td><a class="articleTitle" href="{{ path('article', { 'id': comment.article.id }) }}">{{ comment.article.title }}</a></td>
+                    <td class="text-center">{{ comment.article.chapter }}</td>
                     <td>{{ comment.author.username }}</td>
                     <td>{{ comment.content | truncate(60) }}</td>
                     <td>
@@ -133,7 +135,7 @@
                     <tr>
                         <th>Commentaire</th>
                         <th>Auteur</th>
-                        <th>Nombre de signalement</th>
+                        <th class="text-center">Nombre de signalement</th>
                         <th></th>  <!-- Actions column -->
                     </tr>
                     </thead>
@@ -141,7 +143,7 @@
                         <tr>
                             <td><a class="articleTitle" href="{{ path('article', { 'id': commentReported.comment.article.id }) }}">{{ commentReported.comment.content | truncate(60) }}</a></td>
                             <td>{{ commentReported.comment.author.username }}</td>
-                            <td>{{ commentReported.counter }}</td>
+                            <td class="text-center">{{ commentReported.counter }}</td>
                             <td>
                                 <a href="{{ path('admin_comment_edit', { 'id': commentReported.comment.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
                                 <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ commentReported.comment.id }}"><span class="glyphicon glyphicon-remove"></span>

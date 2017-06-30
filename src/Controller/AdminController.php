@@ -2,7 +2,6 @@
 
 namespace Alaska\Controller;
 
-use Doctrine\DBAL\Driver\PDOException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Alaska\Domain\Article;

@@ -3,8 +3,14 @@
     {% form_theme commentForm 'bootstrap_3_horizontal_layout.html.twig' %}
 {% endif %}
 {% block title %}{{ article.title }}{% endblock %}
-
 {% block content %}
+
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="alert alert-warning" style="margin-top:10px">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
     <h2>Chapitre {{ article.chapter }} - {{ article.title }}</h2>
     <p>{{ article.content }}</p>
 
@@ -29,7 +35,7 @@
                                     {{ comment.content }}
                                 </p>
                             </div>
-                            <p class="text-right"><a href="{{ path('report_comment',{ 'idcomment': comment.id ,'idarticle': article.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                            <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
                         </div>
                     </div>
                 </div>
@@ -50,7 +56,7 @@
                                         {{ comment.content }}
                                     </p>
                                 </div>
-                                <p class="text-right"><a href="{{ path('report_comment',{ 'idcomment': comment.id ,'idarticle': article.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                                <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
                             </div>
                         </div>
                     </div>
@@ -75,11 +81,7 @@
             </div>
         </div>
         {{ form_end(commentForm) }}
-        {% for flashMessage in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
+
     {% else %}
         <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">S'enregistrer</a> pour ajouter un commentaire.
     {% endif %}

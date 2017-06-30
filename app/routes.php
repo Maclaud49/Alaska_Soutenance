@@ -53,7 +53,7 @@ $app->get('/admin/user/{id}/delete', "Alaska\Controller\AdminController::deleteU
 ->bind('admin_user_delete');
 
 // Report a comment
-$app->match('/comment/{idcomment}/{idarticle}', "Alaska\Controller\HomeController::commentReportAction")
+$app->match('/comment/{idComment}/report', "Alaska\Controller\HomeController::commentReportAction")
     ->bind('report_comment');
 
 
