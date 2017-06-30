@@ -6,7 +6,8 @@
 {% block content %}
 <h2 class="text-center">{{ block('title') }}</h2>
 {% for flashMessage in app.session.flashbag.get('success') %}
-<div class="alert alert-success">
+<div class="alert alert-success fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     {{ flashMessage }}
 </div>
 {% endfor %}
@@ -28,9 +29,11 @@
                 <thead>
                     <tr>
                         <th>Titre</th>
-                        <th>Contenu</th>
-                        <th>Chapitre</th>
+                        <th class="text-center">Chapitre</th>
+                        <th class="text-center">Commentaires</th>
+                        <th class="text-center">Vues</th>
                         <th>Status</th>
+                        <th>Dernière modification</th>
 
                         <th></th>  <!-- Actions column -->
                     </tr>
@@ -38,14 +41,16 @@
                 {% for article in articles %}
                 <tr>
                     <td><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
-                    <td>{{ article.content | truncate(60) }}</td>
                     <td class="text-center">{{ article.chapter }}</td>
+                    <td class="text-center">{{ article.commentsNb }}</td>
+                    <td class="text-center">{{ article.viewsNb }}</td>
                     <td>{% if  article.visible == 1  %}
                         <p>Publié</p>
                         {% else %}
                         <p>Brouillon</p>
                         {% endif %}
                     </td>
+                    <td>{{ article.lastUpdatedDate }}</td>
                     <td>
                         <a href="{{ path('admin_article_edit', { 'id': article.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
                         <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#articleDialog{{ article.id }}"><span class="glyphicon glyphicon-remove"></span>

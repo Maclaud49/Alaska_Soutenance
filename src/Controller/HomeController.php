@@ -31,6 +31,12 @@ class HomeController {
      */
     public function articleAction($id, Request $request, Application $app) {
         $article = $app['manager.article']->find($id);
+
+        //Add 1 to the article view counter if visitor
+        if (!$app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $article->setViewsNb($article->getViewsNb() + 1);
+            $app['manager.article']->save($article);
+        }
         $commentFormView = null;
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             // A user is fully authenticated : he can add comments

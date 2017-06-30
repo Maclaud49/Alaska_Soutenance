@@ -74,7 +74,7 @@ class ArticleManager extends Manager
         if ($row) {
             return $this->buildDomainObject($row);
         } else {
-            throw new \Exception("No article matching id " . $id);
+            throw new \Exception("Pas d'article correspondant " . $id);
         }
     }
 
@@ -88,7 +88,10 @@ class ArticleManager extends Manager
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
             'art_chapter' => $article->getChapter(),
-            'art_visible' => $article->isVisible()
+            'art_visible' => $article->isVisible(),
+            'art_commentsNb' => $article->getCommentsNb(),
+            'art_viewsNb' => $article->getViewsNb(),
+            'art_lastUpdated' => $article->getLastUpdatedDate()
             );
 
         if ($article->getId()) {
@@ -127,6 +130,11 @@ class ArticleManager extends Manager
         $article->setContent($row['art_content']);
         $article->setChapter($row['art_chapter']);
         $article->setVisible($row['art_visible']);
+        $commentsCount = $this->commentsCount($row['art_id']);
+        $article->setCommentsNb($commentsCount);
+        $article->setViewsNb($row['art_viewsNb']);
+        $article->setLastUpdatedDate($row['art_lastUpdated']);
+
         return $article;
     }
 
@@ -145,4 +153,19 @@ class ArticleManager extends Manager
         else return true;
 
     }
+
+    /**
+     * Count the comments number for the given article.
+     *
+     * @param int article id.
+     * @return integer
+     */
+
+    public function commentsCount($articleId) {
+        $sql = "select count(com_id) as commentsCount from t_comment where art_id=$articleId";
+        $result = $this->getDb()->fetchColumn($sql);
+
+        return $result;
+    }
+
 }

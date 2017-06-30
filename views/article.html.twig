@@ -6,7 +6,8 @@
 {% block content %}
 
     {% for flashMessage in app.session.flashbag.get('warning') %}
-        <div class="alert alert-warning" style="margin-top:10px">
+        <div class="alert alert-warning fade in" style="margin-top:10px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ flashMessage }}
         </div>
     {% endfor %}

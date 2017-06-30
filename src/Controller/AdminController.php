@@ -38,6 +38,7 @@ class AdminController {
      */
     public function addArticleAction(Request $request, Application $app) {
         $article = new Article();
+        $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
@@ -67,6 +68,7 @@ class AdminController {
     {
 
         $article = $app['manager.article']->find($id);
+        $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {

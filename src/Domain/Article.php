@@ -12,6 +12,75 @@ class Article
     private $id;
 
     /**
+     * Article comments number.
+     *
+     * @var integer
+     */
+    private $commentsNb;
+
+    /**
+     * Article views number.
+     *
+     * @var integer
+     */
+    private $viewsNb;
+
+    /**
+     * Article last updated date.
+     *
+     * @var date
+     */
+    private $lastUpdatedDate;
+
+    /**
+     * @return date
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
+     * @param date $lastUpdatedDate
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewsNb()
+    {
+        return $this->viewsNb;
+    }
+
+    /**
+     * @param int $viewsNb
+     */
+    public function setViewsNb($viewsNb)
+    {
+        $this->viewsNb = $viewsNb;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCommentsNb()
+    {
+        return $this->commentsNb;
+    }
+
+    /**
+     * @param int $commentsNb
+     */
+    public function setCommentsNb($commentsNb)
+    {
+        $this->commentsNb = $commentsNb;
+    }
+
+    /**
      * Article title.
      *
      * @var string

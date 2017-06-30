@@ -7,14 +7,14 @@
 {% block content %}
 <h2 class="text-center">{{ block('title') }}</h2>
 {% for flashMessage in app.session.flashbag.get('success') %}
-<div class="alert alert-success">
+<div class="alert alert-success fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     {{ flashMessage }}
 </div>
 {% endfor %}
 
 <div class="well">
 {{ form_start(commentForm) }}
- 
 
         {{ form_row(commentForm.content) }}
         {{ form_widget(commentForm.content) }}
