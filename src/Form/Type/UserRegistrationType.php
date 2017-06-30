@@ -17,13 +17,13 @@ class UserRegistrationType extends AbstractType
             ->add('username', TextType::class, array(
                 'label'       => "Pseudo",
                 'required'    => true,
-                'constraints' => new Assert\NotBlank(),
+                'constraints' => new Assert\NotBlank(array('message' => 'Merci de renseigner le pseudo')),
             ))
 
             ->add('email', TextType::class, array(
                 'label'       => "Email",
                 'required'    => true,
-                'constraints' => array(new Assert\Email(array('message' => 'L\'adresse email n\'est pas correcte')), new Assert\NotBlank()),
+                'constraints' => array(new Assert\Email(array('message' => 'L\'adresse email n\'est pas correcte')), new Assert\NotBlank(array('message' => 'l\'adresse email est vide'))),
             ))
 
             ->add('password', RepeatedType::class, array(

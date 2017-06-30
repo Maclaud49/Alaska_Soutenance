@@ -2,7 +2,9 @@
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
 body {
-    padding-top: 50px; 
+    padding-top: 50px;
+
+
 }
 
 .footer {
@@ -28,4 +30,17 @@ body {
 label.required:after {
     content: " *";
     color: #c12e2a;
+}
+
+.fond_image{
+    background: url("../images/theme.jpg") no-repeat center fixed;
+}
+
+.tales {
+    width: 100%;
+}
+.carousel-inner{
+    width:100%;
+    border: 5px solid black;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.7);
 }

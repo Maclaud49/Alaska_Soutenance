@@ -18,17 +18,21 @@ class ArticleType extends AbstractType
         $builder
                 ->add('title', TextType::class, array(
                     'label'       => 'Titre',
+
                     'required'    => true,
                     'constraints' => array(
                         new Assert\NotBlank(), 
                         new Assert\Length(array(
                         'min' => 5,'max' => 100,
+                        'minMessage' => 'Le titre doit faire au moins 5 lettres',
+                        'maxMessage' => 'Le titre doit faire au plus 100 lettres'
                         ))),
                 ))
                 ->add('content', TextareaType::class, array(
                     'label'       => 'Contenu',
+                    'label_attr' => array('id' => 'editor'),
                     'required'    => true,
-                    'constraints' => new Assert\NotBlank()))
+                    'constraints' => new Assert\NotBlank(array('message' => 'Votre article n\a pas de contenu'))))
 
                 ->add('visible', CheckboxType::class, array(
                     'label'       => 'Publier',

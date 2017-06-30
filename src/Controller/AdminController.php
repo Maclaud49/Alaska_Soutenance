@@ -42,8 +42,15 @@ class AdminController {
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
-            $app['manager.article']->save($article);
-            $app['session']->getFlashBag()->add('success', 'The article was successfully created.');
+            //if the chapter number is not used
+            if ($app['manager.article']->checkChapter($article->getChapter())) {
+                $app['manager.article']->save($article);
+                $app['session']->getFlashBag()->add('success', 'L\'article a été créé.');
+                $app->get('/admin', "Alaska\Controller\AdminController::indexAction");
+                return $app->redirect($app['url_generator']->generate('admin'));
+            } else {
+                $app['session']->getFlashBag()->add('error', 'Ce numéro de chapitre est déjà assigné.');
+            }
         }
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Nouvel article',
@@ -57,21 +64,31 @@ class AdminController {
      * @param Request $request Incoming request
      * @param Application $app Silex application
      */
-    public function editArticleAction($id, Request $request, Application $app) {
+    public function editArticleAction($id, Request $request, Application $app)
+    {
 
         $article = $app['manager.article']->find($id);
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
-            if ($articleForm->isSubmitted() && $articleForm->isValid()) {
+        if ($articleForm->isSubmitted() && $articleForm->isValid()) {
+            //if chapter changed
+            if ($article->getChapter() != $id) {
+                //if the chapter number is not used
                 if ($app['manager.article']->checkChapter($article->getChapter())) {
                     $app['manager.article']->save($article);
                     $app['session']->getFlashBag()->add('success', 'L\'article a été modifié.');
+                    return $app->redirect($app['url_generator']->generate('admin'));
                 } else {
-                    $test = $app['manager.article']->checkChapter($article->getChapter());
-                    $app['session']->getFlashBag()->add('error', 'Ce numéro de chapitre est déjà assigné.'.$test);
+                    $app['session']->getFlashBag()->add('error', 'Ce numéro de chapitre est déjà assigné.');
                 }
             }
-
+            else{
+                    $app['manager.article']->save($article);
+                    $app['session']->getFlashBag()->add('success', 'L\'article a été modifié.');
+                    $app->get('/admin', "Alaska\Controller\AdminController::indexAction");
+                    return $app->redirect($app['url_generator']->generate('admin'));
+                }
+            }
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Editer l\'article',
             'articleForm' => $articleForm->createView()));
