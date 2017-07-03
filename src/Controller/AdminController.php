@@ -22,7 +22,7 @@ class AdminController {
         $articles = $app['manager.article']->findAll();
         $comments = $app['manager.comment']->findAll();
         $users = $app['manager.user']->findAll();
-        $commentsReported =$app['manager.commentReported']->findAll();
+        $commentsReported =$app['manager.comment']->findAllReportedComments();
         return $app['twig']->render('admin.html.twig', array(
             'articles' => $articles,
             'comments' => $comments,
@@ -139,8 +139,6 @@ class AdminController {
      * @param Application $app Silex application
      */
     public function deleteCommentAction($id, Application $app) {
-        // Delete all associated reported comments
-        $app['manager.commentReported']->deleteAllByComment($id);
         $app['manager.comment']->delete($id);
         $app['session']->getFlashBag()->add('success', 'Le commentaire a été supprimé.');
         // Redirect to admin home page

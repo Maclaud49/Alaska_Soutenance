@@ -55,7 +55,7 @@ class CommentManager extends Manager
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content,DATE_FORMAT(com_date, '%d/%m/%Y %Hh%imin') AS com_date, usr_id from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content,DATE_FORMAT(com_date, '%d/%m/%Y %Hh%imin') AS com_date, usr_id, com_reported from t_comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
         // Convert query result to an array of domain objects
@@ -68,6 +68,28 @@ class CommentManager extends Manager
             $comments[$comId] = $comment;
         }
         return $comments;
+    }
+
+    /**
+     * Return a list of all reported comments
+     *
+     * @param integer $commentId The comment id.
+     *
+     * @return array A list of all reported comments
+     */
+    public function findAllReportedComments() {
+
+        $sql = "select * from t_comment where com_reported>0 order by com_reported";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $commentsReported = array();
+        foreach ($result as $row) {
+            $comId = $row['com_id'];
+            $commentReported = $this->buildDomainObject($row);
+            $commentsReported[$comId] = $commentReported;
+        }
+        return $commentsReported;
     }
 
     /**
@@ -116,7 +138,8 @@ class CommentManager extends Manager
             'art_id' => $comment->getArticle()->getId(),
             'usr_id' => $comment->getAuthor()->getId(),
             'com_content' => $comment->getContent(),
-            'com_date' => $comment->getCommentDate()
+            'com_date' => $comment->getCommentDate(),
+            'com_reported' => $comment->getCommentReportedNb()
             );
 
         if ($comment->getId()) {
@@ -172,6 +195,7 @@ class CommentManager extends Manager
         $comment->setId($row['com_id']);
         $comment->setContent($row['com_content']);
         $comment->setCommentDate($row['com_date']);
+        $comment->setCommentReportedNb($row['com_reported']);
 
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article
@@ -188,4 +212,6 @@ class CommentManager extends Manager
         
         return $comment;
     }
+
+
 }

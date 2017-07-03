@@ -5,6 +5,14 @@
       <webServer id="a530a6c9-9971-4f76-8e24-b27b5448d6d5" name="Alaska" url="http://localhost/www/Alaska/web/index.php">
         <fileTransfer port="0" accessType="LOCAL" />
       </webServer>
+      <webServer id="9c2efea9-a64c-430b-9b9f-daf181deba93" name="1&amp;1 server" url="http://billet-simple-alaska.parlow-co.fr">
+        <fileTransfer host="home668438031.1and1-data.host" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

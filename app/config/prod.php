@@ -4,11 +4,11 @@
 $app['db.options'] = array(
     'driver'   => 'pdo_mysql',
     'charset'  => 'utf8',
-    'host'     => 'localhost',
+    'host'     => 'db688769058.db.1and1.com',
     'port'     => '3306',
-    'dbname'   => 'alaska',
-    'user'     => 'alaska_user',
-    'password' => 'secret',
+    'dbname'   => 'db688769058',
+    'user'     => 'dbo688769058',
+    'password' => 'Alaska2017&',
 );
 
 // define log parameters

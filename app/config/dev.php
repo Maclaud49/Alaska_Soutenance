@@ -6,9 +6,9 @@ $app['db.options'] = array(
     'charset'  => 'utf8',
     'host'     => '127.0.0.1',  // Mandatory for PHPUnit testing
     'port'     => '3306',
-    'dbname'   => 'alaska',
-    'user'     => 'alaska_user',
-    'password' => 'secret',
+    'dbname'   => 'db688769058',
+    'user'     => 'dbo688769058',
+    'password' => 'Alaska2017&',
 );
 
 // enable the debug mode

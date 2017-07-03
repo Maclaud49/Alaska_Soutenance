@@ -146,14 +146,14 @@
                     </thead>
                     {% for commentReported in commentsReported %}
                         <tr>
-                            <td><a class="articleTitle" href="{{ path('article', { 'id': commentReported.comment.article.id }) }}">{{ commentReported.comment.content | truncate(60) }}</a></td>
-                            <td>{{ commentReported.comment.author.username }}</td>
-                            <td class="text-center">{{ commentReported.counter }}</td>
+                            <td><a class="articleTitle" href="{{ path('article', { 'id': commentReported.article.id }) }}">{{ commentReported.content | truncate(60) }}</a></td>
+                            <td>{{ commentReported.author.username }}</td>
+                            <td class="text-center">{{ commentReported.CommentReportedNb }}</td>
                             <td>
-                                <a href="{{ path('admin_comment_edit', { 'id': commentReported.comment.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
-                                <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ commentReported.comment.id }}"><span class="glyphicon glyphicon-remove"></span>
+                                <a href="{{ path('admin_comment_edit', { 'id': commentReported.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                                <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ commentReported.id }}"><span class="glyphicon glyphicon-remove"></span>
                                 </button>
-                                <div class="modal fade" id="commentDialog{{ commentReported.comment.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="commentDialog{{ commentReported.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -165,7 +165,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                                <a href="{{ path('admin_comment_delete', { 'id': commentReported.comment.id }) }}" class="btn btn-danger">Confirmer</a>
+                                                <a href="{{ path('admin_comment_delete', { 'id': commentReported.id }) }}" class="btn btn-danger">Confirmer</a>
                                             </div>
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal-dialog -->
@@ -176,7 +176,7 @@
                 </table>
             </div>
         {% else %}
-            <div class="alert alert-warning">Pas de commentaires.</div>
+            <div class="alert alert-warning">Pas de commentaires ayant été signalés.</div>
         {% endif %}
     </div>
     <div class="tab-pane fade adminTable" id="users">

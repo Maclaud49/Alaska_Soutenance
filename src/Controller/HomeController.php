@@ -44,11 +44,10 @@ class HomeController {
             $comment->setArticle($article);
             $user = $app['user'];
 
-            //Register the viewed art id so we can welcome him remimding last read chapter
+            //Register the viewed art id so we can welcome with the last read chapter
             $user->setLastViewArt($id);
             $app['manager.user']->save($user);
             $comment->setAuthor($user);
-            $comment->setCommentDate(date("Y-m-d H:i:s"));
             $commentForm = $app['form.factory']->create(CommentType::class, $comment);
             $commentForm->handleRequest($request);
             if ($commentForm->isSubmitted() && $commentForm->isValid()) {
@@ -115,25 +114,11 @@ class HomeController {
      */
     public function commentReportAction($idComment, Application $app) {
         $comment = $app['manager.comment']->find($idComment);
-        $articleId = $app['manager.comment']->findArticleIdByComId($idComment);
-        $commentReportedBefore=$app['manager.commentReported']->findByComment($idComment);
+        $article = $app['manager.comment']->findArticleIdByComId($idComment);
+        $comment->setCommentReportedNb($comment->getCommentReportedNb() + 1);
+        $app['manager.comment']->save($comment);
 
-        //The comment has never been notified
-        if($commentReportedBefore == false){
-            $reportedComment = new CommentReported();
-            $reportedComment->setComment($comment);
-            $reportedComment->setCounter(1);
-            $app['manager.commentReported']->save($reportedComment);
             $app['session']->getFlashBag()->add('warning', 'Le commentaire a été signalé.');
-            return $app->redirect($app['url_generator']->generate('article', array('id' => $articleId)));
+            return $app->redirect($app['url_generator']->generate('article', array('id' => $article)));
         }
-        else {
-            $newcounter = $commentReportedBefore->getCounter() + 1;
-            $commentReportedBefore->setCounter($newcounter);
-            $commentReportedBefore->setComment($comment);
-            $app['manager.commentReported']->save($commentReportedBefore);
-            $app['session']->getFlashBag()->add('warning', 'Le commentaire a été signalé.');
-            return $app->redirect($app['url_generator']->generate('article', array('id' =>$articleId)));
-        }
-    }
 }

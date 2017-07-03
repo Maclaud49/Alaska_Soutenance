@@ -39,6 +39,30 @@ class Comment
      */
     private $article;
 
+    /**
+     * Reported counter.
+     *
+     * @var integer
+     */
+    private $commentReportedNb;
+
+    /**
+     * @return int
+     */
+    public function getCommentReportedNb()
+    {
+        return $this->commentReportedNb;
+    }
+
+    /**
+     * @param $commentReportedNb
+     */
+    public function setCommentReportedNb($commentReportedNb)
+    {
+        $this->commentReportedNb = $commentReportedNb;
+        return $this;
+    }
+
 
     public function getId() {
         return $this->id;
@@ -90,6 +114,7 @@ class Comment
     public function setCommentDate($commentDate)
     {
         $this->commentDate = $commentDate;
+        return $this;
     }
 
 
