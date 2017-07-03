@@ -5,8 +5,8 @@
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
 
-    {% for flashMessage in app.session.flashbag.get('warning') %}
-        <div class="alert alert-warning fade in" style="margin-top:10px">
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success fade in" style="margin-top:10px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ flashMessage }}
         </div>
@@ -22,7 +22,14 @@
     </div>
 
 
-    <h3>Commentaires</h3>
+    {% set counter = article.commentsNb %}
+    {% if  counter == 0  %}
+    {% elseif counter == 1  %}
+        <h3>{{ counter }} commentaire</h3>
+    {% elseif counter >1  %}
+        <h3>{{ counter }} commentaires</h3>
+    {% endif %}
+
 
     {#allow to add margin is same author#}
     {% set marqueur=0 %}
@@ -36,14 +43,14 @@
                         <div class="panel-body">
                             <header class="text-right">
                                 <div class="comment-user"><i class="fa fa-user"></i> {{ comment.author.username }}</div>
-                                <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>{{ comment.CommentDate }}</time>
+                                <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{ comment.CommentDate }}</time>
                             </header>
                             <div class="comment-post">
                                 <p>
                                     {{ comment.content }}
                                 </p>
                             </div>
-                            <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                            <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Signaler ce commentaire</a></p>
                         </div>
                     </div>
                 </div>
@@ -57,14 +64,14 @@
                             <div class="panel-body">
                                 <header class="text-right">
                                     <div class="comment-user"><i class="fa fa-user"></i> {{ comment.author.username }}</div>
-                                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>{{ comment.CommentDate }}</time>
+                                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{ comment.CommentDate }}</time>
                                 </header>
                                 <div class="comment-post">
                                     <p>
                                         {{ comment.content }}
                                     </p>
                                 </div>
-                                <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>Signaler ce commentaire</a></p>
+                                <p class="text-right"><a href="{{ path('report_comment',{'idComment': comment.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Signaler ce commentaire</a></p>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,15 @@
 /*font Awesome http://fontawesome.io*/
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
+@font-face{
+    font-family : "Alex Brush";
+    src: url("../fonts/Alex-Brush/alexbrush-regular-webfont.eot"),
+    url("../fonts/Alex-Brush/alexbrush-regular-webfont.svg"),
+    url("../fonts/Alex-Brush/alexbrush-regular-webfont.ttf"),
+    url("../fonts/Alex-Brush/alexbrush-regular-webfont.woff"),
+    url("../fonts/Alex-Brush/alexbrush-regular-webfont.woff2");
+}
+
 body {
     padding-top: 50px;
 
@@ -47,5 +56,19 @@ label.required:after {
 
 .article-content p{
     line-height:2.5em;
+    text-align: justify;
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:1.5em;
+
 
 }
+
+.article-content h2{
+    font-family: 'Alex Brush' , Arial, Helvetica, Verdana;
+    font-size:3em;
+}
+
+.carousel-caption h2{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+

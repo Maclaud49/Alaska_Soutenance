@@ -57,7 +57,7 @@ class HomeController {
             $commentFormView = $commentForm->createView();
         }
         $comments = $app['manager.comment']->findAllByArticle($id);
-        
+        $article = $app['manager.article']->find($id);
         return $app['twig']->render('article.html.twig', array(
             'article' => $article,
             'comments' => $comments,
