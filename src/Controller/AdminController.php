@@ -39,6 +39,7 @@ class AdminController {
     public function addArticleAction(Request $request, Application $app) {
         $article = new Article();
         $article->setViewsNb(0);
+        $articles = $app['manager.article']->findAll();
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
@@ -55,7 +56,9 @@ class AdminController {
         }
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Nouvel article',
-            'articleForm' => $articleForm->createView()));
+            'articleForm' => $articleForm->createView(),
+            'articles' => $articles));
+
     }
 
     /**
@@ -70,6 +73,7 @@ class AdminController {
 
         $article = $app['manager.article']->find($id);
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
+        $articles = $app['manager.article']->findAll();
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
@@ -93,7 +97,8 @@ class AdminController {
             }
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Editer l\'article',
-            'articleForm' => $articleForm->createView()));
+            'articleForm' => $articleForm->createView(),
+            'articles' => $articles));
     }
 
     /**
