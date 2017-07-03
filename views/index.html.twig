@@ -46,8 +46,8 @@
 {% for article in articles %}
 <article class="text-center">
     <h2>Chapitre - {{ article.chapter }} <a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title  }}</a></h2>
-    <p>{{ article.content | truncate(300, true, '...') }}</p>
-    <p><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">Lire la suite</a></p>
+    <p>{% autoescape false %}{{ article.content | truncate(300, true, '...')}}{% endautoescape %} </p>
+    <p><button type="button" class="btn btn-link"><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">Lire la suite</a></button></p>
 </article>
 {% endfor %}
 {% endblock %}

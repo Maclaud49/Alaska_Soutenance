@@ -12,8 +12,15 @@
         </div>
     {% endfor %}
 
-    <h2>Chapitre {{ article.chapter }} - {{ article.title }}</h2>
-    <p>{{ article.content }}</p>
+    <div class="container">
+        <div class="row article-content">
+            <div class="col-lg-offset-2 col-lg-8 text-center">
+                <h2>Chapitre {{ article.chapter }} - {{ article.title }}</h2>
+                {% autoescape false %}{{ article.content }} {% endautoescape %}
+            </div>
+        </div>
+    </div>
+
 
     <h3>Commentaires</h3>
 
