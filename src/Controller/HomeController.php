@@ -59,9 +59,11 @@ class HomeController {
             $user = $app['user'];
 
             //Register the viewed art id so we can welcome with the last read chapter
-            $user->setLastViewArt($id);
+            $chapter=$article->getChapter();
+            $user->setLastViewArt($chapter);
             $app['manager.user']->save($user);
             $comment->setAuthor($user);
+            $comment->setCommentReportedNb(0);
             $commentForm = $app['form.factory']->create(CommentType::class, $comment);
             $commentForm->handleRequest($request);
             if ($commentForm->isSubmitted() && $commentForm->isValid()) {
