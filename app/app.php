@@ -4,6 +4,7 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
 
+
 // Register global error and exception handlers
 ErrorHandler::register();
 ExceptionHandler::register();
@@ -72,6 +73,10 @@ $app['manager.commentReported'] = function ($app) {
     $commentReportedManager->setCommentManager($app['manager.comment']);
     return $commentReportedManager;
 };
+
+
+
+
 
 // Register error handler
 /*$app->error(function (\Exception $e, Request $request, $code) use ($app) {

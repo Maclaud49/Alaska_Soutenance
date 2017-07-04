@@ -9,6 +9,8 @@ use Alaska\Domain\Comment;
 use Alaska\Form\Type\CommentType;
 use Alaska\Domain\User;
 use Alaska\Domain\CommentReported;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class HomeController {
 
@@ -21,6 +23,18 @@ class HomeController {
         $articles = $app['manager.article']->findAllVisible();
         return $app['twig']->render('index.html.twig', array('articles' => $articles));
     }
+
+    /**
+     * Set cookie controller.
+     *
+     * @param Application $app Silex application
+     */
+    /*public function setCookieAction($username, Application $app) {
+        $response = new Response();
+        $dt = time() + 365*24*3600;
+        $response->headers->setCookie(new Cookie('username', $username,$dt, null, null, false, true));
+        return $response;
+    }*/
     
     /**
      * Article details controller.
@@ -71,11 +85,13 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function loginAction(Request $request, Application $app) {
-        return $app['twig']->render('login.html.twig', array(
+            return $app['twig']->render('login.html.twig', array(
             'error'         => $app['security.last_error']($request),
             'last_username' => $app['session']->get('_security.last_username'),
         ));
     }
+
+    //$request->cookies->get('username')
 
     /**
      * User register controller.

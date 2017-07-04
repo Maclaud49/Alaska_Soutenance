@@ -54,12 +54,14 @@ label.required:after {
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.7);
 }
 
-.article-content p{
+.article-content article{
     line-height:2.5em;
     text-align: justify;
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size:1.5em;
 }
+
+
 
 .article-content h2{
     font-family: 'Alex Brush' , Arial, Helvetica, Verdana;
@@ -69,6 +71,10 @@ label.required:after {
 .carousel-caption h2{
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size:2em;
+}
+
+.footer{
+    line-height:50px;
 }
 
 @media screen and (max-width: 500px){

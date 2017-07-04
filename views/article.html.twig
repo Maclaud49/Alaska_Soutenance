@@ -12,11 +12,26 @@
         </div>
     {% endfor %}
 
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="alert alert-warning fade in" style="margin-top:10px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+
+    {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if app.user %}
+            {{  path('set_cookie', {'username': app.user.username}) }}
+            {{ app.user.username }}
+        {% endif %}
+    {% endif %}#}
+
     <div class="container">
         <div class="row article-content">
             <div class="col-lg-offset-2 col-lg-8 text-center">
                 <h2>Chapitre - {{ article.chapter }} -<br> {{ article.title }}</h2>
-                {% autoescape false %}{{ article.content }} {% endautoescape %}
+                <article>{% autoescape false %}{{ article.content }} {% endautoescape %}</article>
             </div>
         </div>
     </div>
@@ -98,6 +113,6 @@
         {{ form_end(commentForm) }}
 
     {% else %}
-        <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">S'enregistrer</a> pour ajouter un commentaire.
+        <div>Se connecter pour ajouter un commentaire.</div>
     {% endif %}
 {% endblock %}

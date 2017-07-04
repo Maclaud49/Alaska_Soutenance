@@ -56,6 +56,10 @@ $app->get('/admin/user/{id}/delete', "Alaska\Controller\AdminController::deleteU
 $app->match('/comment/{idComment}/report', "Alaska\Controller\HomeController::commentReportAction")
     ->bind('report_comment');
 
+/*// Set a cookie
+$app->match('/index/{username}/setcookie', "Alaska\Controller\HomeController::setCookietAction")
+    ->bind('set_cookie');*/
+
 
 
 

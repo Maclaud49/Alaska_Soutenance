@@ -74,11 +74,12 @@ class AdminController {
         $article = $app['manager.article']->find($id);
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articles = $app['manager.article']->findAll();
+        $chapter=$article->getChapter();
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
             //if chapter changed
-            if ($article->getChapter() != $id) {
+            if ($article->getChapter() != $chapter) {
                 //if the chapter number is not used
                 if ($app['manager.article']->checkChapter($article->getChapter())) {
                     $app['manager.article']->save($article);
@@ -220,7 +221,7 @@ class AdminController {
         $app['manager.comment']->deleteAllByUser($id);
         // Delete the user
         $app['manager.user']->delete($id);
-        $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été modifié.');
+        $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été supprimé.');
         // Redirect to admin home page
         return $app->redirect($app['url_generator']->generate('admin'));
     }
