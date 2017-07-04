@@ -59,8 +59,6 @@ label.required:after {
     text-align: justify;
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size:1.5em;
-
-
 }
 
 .article-content h2{
@@ -70,5 +68,17 @@ label.required:after {
 
 .carousel-caption h2{
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:2em;
 }
 
+@media screen and (max-width: 500px){
+    .carousel-caption h2{
+        font-size:1em;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .article-content p{
+        line-height:1.5em;
+    }
+}

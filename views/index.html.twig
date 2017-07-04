@@ -45,7 +45,7 @@
     </div>
 {% for article in articles %}
 <article class="text-center article-content">
-    <h2>Chapitre - {{ article.chapter }} - <a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title  }}</a></h2>
+    <h2>Chapitre - {{ article.chapter }} -<br> <a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title  }}</a></h2>
     {% autoescape false %}{{ article.content | truncate(250, true, '...')}}{% endautoescape %}
     <button type="button" class="btn btn-link"><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">Lire la suite</a></button>
 </article>
