@@ -100,12 +100,16 @@ class HomeController {
             $user->setPassword($password);
             $user->setRole('ROLE_USER');
             $app['manager.user']->save($user);
-            $app['session']->getFlashBag()->add('success', 'Vous êtes bien enregistré.');
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien enregistré. Tapez votre pseudo et mot de passe pour vous loguer');
+            return $app->redirect($app['url_generator']->generate('login'));
+
         }
         return $app['twig']->render('user_registration_form.html.twig', array(
             'title' => 'Inscription',
             'userForm' => $userForm->createView()));
     }
+
+
 
     /**
      * Comment report controller.
