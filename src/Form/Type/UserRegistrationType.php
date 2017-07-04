@@ -39,7 +39,7 @@ class UserRegistrationType extends AbstractType
                     'attr'        => ['placeholder' => 'Au moins 6 caractères'],
                 ),
                 'second_options'  => array(
-                    'label'       => 'Retaper votre mot de passe',
+                    'label'       => 'Retapez votre mot de passe',
                     'attr'        => ['placeholder' => 'Le même mot de passe'],
                     'required'    => true,
                 ),

@@ -8,7 +8,7 @@ create table t_article
     art_visible tinyint(1) not null,
     art_commentsNb int default '0' null,
     art_viewsNb int default '0' not null,
-    art_lastUpdated datetime default CURRENT_TIMESTAMP not null,
+    art_lastUpdated timestamp default CURRENT_TIMESTAMP not null,
     constraint art_chapter
     unique (art_chapter)
 )
@@ -19,9 +19,10 @@ create table t_comment
     com_id int auto_increment
         primary key,
     com_content varchar(500) not null,
-    com_date datetime not null,
+    com_date timestamp default CURRENT_TIMESTAMP not null,
     art_id int not null,
     usr_id int not null,
+    com_reported int default '0' null,
     constraint fk_com_art
     foreign key (art_id) references db688769058.t_article (art_id)
 )
@@ -33,23 +34,6 @@ create index fk_com_art
 
 create index fk_com_usr
     on t_comment (usr_id)
-;
-
-create table t_comment_reported
-(
-    com_rep_id int auto_increment
-        primary key,
-    com_rep_date datetime not null,
-    com_id int not null,
-    com_rep_counter int not null,
-    constraint fk_com_rep_com
-    foreign key (com_id) references db688769058.t_comment (com_id)
-        on delete cascade
-)
-;
-
-create index fk_com_rep_com
-    on t_comment_reported (com_id)
 ;
 
 create table t_user

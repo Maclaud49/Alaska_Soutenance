@@ -30,7 +30,7 @@ class CommentManager extends Manager
      * @return array A list of all comments.
      */
     public function findAll() {
-        $sql = "select * from t_comment order by com_id desc";
+        $sql = "select * from t_comment order by com_date desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -79,7 +79,7 @@ class CommentManager extends Manager
      */
     public function findAllReportedComments() {
 
-        $sql = "select * from t_comment where com_reported>0 order by com_reported";
+        $sql = "select * from t_comment where com_reported>0 order by com_reported desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects

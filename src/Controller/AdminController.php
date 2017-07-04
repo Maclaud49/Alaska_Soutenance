@@ -132,6 +132,7 @@ class AdminController {
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $app['manager.comment']->save($comment);
             $app['session']->getFlashBag()->add('success', 'Le commentaire a été modifié.');
+            return $app->redirect($app['url_generator']->generate('admin'));
         }
         return $app['twig']->render('comment_form.html.twig', array(
             'title' => 'Mofidier le commentaire',
@@ -159,6 +160,7 @@ class AdminController {
      */
     public function addUserAction(Request $request, Application $app) {
         $user = new User();
+        $user->setLastViewArt(1);
         $userForm = $app['form.factory']->create(UserType::class, $user);
         $userForm->handleRequest($request);
         if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -172,7 +174,8 @@ class AdminController {
             $password = $encoder->encodePassword($plainPassword, $user->getSalt());
             $user->setPassword($password); 
             $app['manager.user']->save($user);
-            $app['session']->getFlashBag()->add('success', 'L\'utilisateur a correctement été enregistré.');
+            $app['session']->getFlashBag()->add('success', 'L\'enregistrement s\'est bien déroulé.');
+            return $app->redirect($app['url_generator']->generate('admin'));
         }
         return $app['twig']->render('user_form.html.twig', array(
             'title' => 'Nouvel utilisateur',
@@ -198,7 +201,8 @@ class AdminController {
             $password = $encoder->encodePassword($plainPassword, $user->getSalt());
             $user->setPassword($password); 
             $app['manager.user']->save($user);
-            $app['session']->getFlashBag()->add('success', 'The user was successfully updated.');
+            $app['session']->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
+            return $app->redirect($app['url_generator']->generate('admin'));
         }
         return $app['twig']->render('user_form.html.twig', array(
             'title' => 'Edit user',
@@ -216,7 +220,7 @@ class AdminController {
         $app['manager.comment']->deleteAllByUser($id);
         // Delete the user
         $app['manager.user']->delete($id);
-        $app['session']->getFlashBag()->add('success', 'The user was successfully removed.');
+        $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été modifié.');
         // Redirect to admin home page
         return $app->redirect($app['url_generator']->generate('admin'));
     }

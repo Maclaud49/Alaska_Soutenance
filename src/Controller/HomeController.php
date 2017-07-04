@@ -85,6 +85,7 @@ class HomeController {
      */
     public function registerAction(Request $request, Application $app) {
         $user = new User();
+        $user->setLastViewArt(1);
         $userForm = $app['form.factory']->create(UserRegistrationType::class, $user);
         $userForm->handleRequest($request);
         if ($userForm->isSubmitted() && $userForm->isValid()) {
