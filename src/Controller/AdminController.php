@@ -21,13 +21,15 @@ class AdminController {
     public function indexAction(Application $app) {
         $articles = $app['manager.article']->findAll();
         $comments = $app['manager.comment']->findAll();
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $users = $app['manager.user']->findAll();
         $commentsReported =$app['manager.comment']->findAllReportedComments();
         return $app['twig']->render('admin.html.twig', array(
             'articles' => $articles,
             'comments' => $comments,
             'users' => $users,
-            'commentsReported' =>$commentsReported));
+            'commentsReported' =>$commentsReported,
+            'articlesVisible' => $articlesVisible));
     }
 
     /**
@@ -40,6 +42,7 @@ class AdminController {
         $article = new Article();
         $article->setViewsNb(0);
         $articles = $app['manager.article']->findAll();
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
@@ -57,7 +60,8 @@ class AdminController {
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Nouvel article',
             'articleForm' => $articleForm->createView(),
-            'articles' => $articles));
+            'articles' => $articles,
+            'articlesVisible' => $articlesVisible));
 
     }
 
@@ -74,6 +78,7 @@ class AdminController {
         $article = $app['manager.article']->find($id);
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articles = $app['manager.article']->findAll();
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $chapter=$article->getChapter();
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
@@ -99,7 +104,8 @@ class AdminController {
         return $app['twig']->render('article_form.html.twig', array(
             'title' => 'Editer l\'article',
             'articleForm' => $articleForm->createView(),
-            'articles' => $articles));
+            'articles' => $articles,
+            'articlesVisible' => $articlesVisible));
     }
 
     /**
@@ -128,6 +134,7 @@ class AdminController {
      */
     public function editCommentAction($id, Request $request, Application $app) {
         $comment = $app['manager.comment']->find($id);
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $commentForm = $app['form.factory']->create(CommentType::class, $comment);
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
@@ -137,7 +144,8 @@ class AdminController {
         }
         return $app['twig']->render('comment_form.html.twig', array(
             'title' => 'Mofidier le commentaire',
-            'commentForm' => $commentForm->createView()));
+            'commentForm' => $commentForm->createView(),
+            'articlesVisible' => $articlesVisible));
     }
 
     /**
@@ -161,6 +169,7 @@ class AdminController {
      */
     public function addUserAction(Request $request, Application $app) {
         $user = new User();
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $user->setLastViewArt(1);
         $userForm = $app['form.factory']->create(UserType::class, $user);
         $userForm->handleRequest($request);
@@ -180,7 +189,8 @@ class AdminController {
         }
         return $app['twig']->render('user_form.html.twig', array(
             'title' => 'Nouvel utilisateur',
-            'userForm' => $userForm->createView()));
+            'userForm' => $userForm->createView(),
+            'articlesVisible' => $articlesVisible));
     }
 
     /**
@@ -192,6 +202,7 @@ class AdminController {
      */
     public function editUserAction($id, Request $request, Application $app) {
         $user = $app['manager.user']->find($id);
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $userForm = $app['form.factory']->create(UserType::class, $user);
         $userForm->handleRequest($request);
         if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -207,7 +218,8 @@ class AdminController {
         }
         return $app['twig']->render('user_form.html.twig', array(
             'title' => 'Edit user',
-            'userForm' => $userForm->createView()));
+            'userForm' => $userForm->createView(),
+            'articlesVisible' => $articlesVisible));
     }
 
     /**

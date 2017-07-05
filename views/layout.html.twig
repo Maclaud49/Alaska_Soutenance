@@ -59,8 +59,8 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-th-list"></span> Sommaire<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    {% for article in articles %}
-                                        <li><a href="{{ path('article', { 'id': article.id }) }}">Ch.{{ article.chapter  }}-{{ article.title  }}</a></li>
+                                    {% for article in articlesVisible %}
+                                        <li><a href="{{ path('article', { 'id': article.id }) }}">Ch. {{ article.chapter  }} - {{ article.title  }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>

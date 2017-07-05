@@ -20,8 +20,8 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function indexAction(Application $app) {
-        $articles = $app['manager.article']->findAllVisible();
-        return $app['twig']->render('index.html.twig', array('articles' => $articles));
+        $articlesVisible = $app['manager.article']->findAllVisible();
+        return $app['twig']->render('index.html.twig', array('articlesVisible' => $articlesVisible));
     }
 
     /**
@@ -45,6 +45,7 @@ class HomeController {
      */
     public function articleAction($id, Request $request, Application $app) {
         $article = $app['manager.article']->find($id);
+        $articlesVisible = $app['manager.article']->findAllVisible();
 
         //Add 1 to the article view counter if visitor
         if (!$app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -77,7 +78,8 @@ class HomeController {
         return $app['twig']->render('article.html.twig', array(
             'article' => $article,
             'comments' => $comments,
-            'commentForm' => $commentFormView));
+            'commentForm' => $commentFormView,
+            'articlesVisible' => $articlesVisible));
     }
     
     /**
@@ -87,9 +89,11 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function loginAction(Request $request, Application $app) {
+        $articlesVisible = $app['manager.article']->findAllVisible();
             return $app['twig']->render('login.html.twig', array(
             'error'         => $app['security.last_error']($request),
             'last_username' => $app['session']->get('_security.last_username'),
+            'articlesVisible' => $articlesVisible
         ));
     }
 
@@ -104,6 +108,7 @@ class HomeController {
     public function registerAction(Request $request, Application $app) {
         $user = new User();
         $user->setLastViewArt(1);
+        $articlesVisible = $app['manager.article']->findAllVisible();
         $userForm = $app['form.factory']->create(UserRegistrationType::class, $user);
         $userForm->handleRequest($request);
         if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -124,7 +129,8 @@ class HomeController {
         }
         return $app['twig']->render('user_registration_form.html.twig', array(
             'title' => 'Inscription',
-            'userForm' => $userForm->createView()));
+            'userForm' => $userForm->createView(),
+            'articlesVisible' => $articlesVisible));
     }
 
 
