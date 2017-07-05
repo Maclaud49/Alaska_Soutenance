@@ -2,6 +2,7 @@
 
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 
 
@@ -79,16 +80,17 @@ $app['manager.commentReported'] = function ($app) {
 
 
 // Register error handler
+
 /*$app->error(function (\Exception $e, Request $request, $code) use ($app) {
     switch ($code) {
         case 403:
-            $message = 'Access denied.';
+            $message = 'Accès refusé.';
             break;
         case 404:
-            $message = 'The requested resource could not be found.';
+            $message = 'La page demandée n\'existe pas.';
             break;
         default:
-            $message = 'Code de l\'erreur: '.$code;
+            $message = 'Une erreur inconnue est survenue';
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });*/

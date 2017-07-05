@@ -136,6 +136,29 @@ class User implements UserInterface
     }
 
     /**
+     * User last connection date.
+     *
+     * @var String
+     */
+    private $lastConnectedDate;
+
+    /**
+     * @return String
+     */
+    public function getLastConnectedDate()
+    {
+        return $this->lastConnectedDate;
+    }
+
+    /**
+     * @param String $lastConnectionDate
+     */
+    public function setLastConnectedDate($lastConnectedDate)
+    {
+        $this->lastConnectedDate = $lastConnectedDate;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRoles()

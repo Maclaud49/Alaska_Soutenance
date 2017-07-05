@@ -58,6 +58,7 @@ class UserManager extends Manager implements UserProviderInterface
             'usr_password' => $user->getPassword(),
             'usr_role' => $user->getRole(),
             'usr_lastViewArt' => $user->getLastViewArt(),
+            'usr_lastConnectedDate' =>$user->getLastConnectedDate(),
             );
 
         if ($user->getId()) {
@@ -131,6 +132,7 @@ class UserManager extends Manager implements UserProviderInterface
         $user->setSalt($row['usr_salt']);
         $user->setRole($row['usr_role']);
         $user->setLastViewArt($row['usr_lastViewArt']);
+        $user->setLastConnectedDate($row['usr_lastConnectedDate']);
         return $user;
     }
 }
