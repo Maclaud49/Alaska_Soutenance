@@ -45,7 +45,8 @@ create table t_user
     usr_password varchar(88) not null,
     usr_salt varchar(23) not null,
     usr_role varchar(50) not null,
-    usr_lastViewArt int default '1' not null
+    usr_lastViewArt int default '1' not null,
+    usr_lastConnectedDate timestamp default CURRENT_TIMESTAMP not null
 )
 ;
 

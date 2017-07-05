@@ -92,7 +92,7 @@ class ArticleManager extends Manager
         if ($row) {
             return $this->buildDomainObject($row);
         } else {
-            throw new \Exception("Pas d'article correspondant " . $id);
+            throw new \Exception("L'article est en cours de modification");
         }
     }
 

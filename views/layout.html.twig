@@ -7,6 +7,7 @@
     <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/alaska.css') }}" rel="stylesheet">
     <link href="{{ asset('/lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
     <link rel="icon" href="{{ asset('/images/favicon.ico') }}" />
     <title>Alaska - {% block title %}{% endblock %}</title>
@@ -83,12 +84,33 @@
     <!-- JavaScript Boostrap plugin -->
     <script src="{{ asset('/lib/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- ckeditor plugin -->
-    <script src="{{ asset('/lib/ckeditor/ckeditor.js') }}"></script>
+   {# <script src="{{ asset('/lib/ckeditor/ckeditor.js') }}"></script>
     <script>
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
         CKEDITOR.replace( 'article_content' );
+    </script>#}
+
+    <script src="{{ asset('/lib/tinymce/js/tinymce/tinymce.js') }}"></script>
+    <script src="{{ asset('/lib/tinymce/js/tinymce/jquery.tinymce.min.js') }}"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code'
+            ],
+            toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            content_css: [
+                '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                '//www.tinymce.com/css/codepen.min.css']
+        });
     </script>
+
 
 </body>
 </html>

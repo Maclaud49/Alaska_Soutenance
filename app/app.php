@@ -45,10 +45,17 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
         array('^/admin', 'ROLE_ADMIN'),
     ),
 ));
+//Register form services
 $app->register(new Silex\Provider\FormServiceProvider());
+//Register validator data services
+$app->register(new Silex\Provider\ValidatorServiceProvider());
+
+//Register translation services
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
-$app->register(new Silex\Provider\ValidatorServiceProvider());
+
+
+//Register log services
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/../var/logs/alaska.log',
     'monolog.name' => 'Alaska',
@@ -88,6 +95,9 @@ $app['manager.commentReported'] = function ($app) {
             break;
         case 404:
             $message = 'La page demandée n\'existe pas.';
+            break;
+        case 500:
+            $message = 'L\article est en cours de modification';
             break;
         default:
             $message = 'Une erreur inconnue est survenue';
