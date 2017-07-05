@@ -44,7 +44,7 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function articleAction($id, Request $request, Application $app) {
-        $article = $app['manager.article']->find($id);
+        $article = $app['manager.article']->findVisible($id);
         $articlesVisible = $app['manager.article']->findAllVisible();
 
         //Add 1 to the article view counter if visitor
@@ -74,7 +74,7 @@ class HomeController {
             $commentFormView = $commentForm->createView();
         }
         $comments = $app['manager.comment']->findAllByArticle($id);
-        $article = $app['manager.article']->find($id);
+        $article = $app['manager.article']->findVisible($id);
         return $app['twig']->render('article.html.twig', array(
             'article' => $article,
             'comments' => $comments,

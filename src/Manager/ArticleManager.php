@@ -74,6 +74,24 @@ class ArticleManager extends Manager
         if ($row) {
             return $this->buildDomainObject($row);
         } else {
+            throw new \Exception("L'article est en cours de modification ");
+        }
+    }
+
+    /**
+     * Returns an article matching the supplied id with visible condition.
+     *
+     * @param integer $id The article id.
+     *
+     * @return \Alaska\Domain\Article|throws an exception if no matching article is found
+     */
+    public function findVisible($id) {
+        $sql = "select * from t_article where art_id=? and art_visible=1";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if ($row) {
+            return $this->buildDomainObject($row);
+        } else {
             throw new \Exception("Pas d'article correspondant " . $id);
         }
     }
