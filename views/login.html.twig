@@ -11,7 +11,7 @@
 {% endif %}
 
     {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="alert alert-success fade in" style="margin-top:10px">
+        <div class="alert alert-success fade in text-center" style="margin-top:10px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ flashMessage }}
         </div>

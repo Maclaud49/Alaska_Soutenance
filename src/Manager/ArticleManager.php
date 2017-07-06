@@ -29,8 +29,8 @@ class ArticleManager extends Manager
      *
      * @return array A list of all visible articles.
      */
-    public function findAllVisibleDesc() {
-        $sql = "select * from t_article where art_visible='1' order by art_chapter desc";
+    public function findAllVisibleDesc($articlesPerPage) {
+        $sql = "select * from t_article where art_visible='1' order by art_chapter desc limit $articlesPerPage ";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -133,6 +133,35 @@ class ArticleManager extends Manager
     }
 
     /**
+     * Return a list of  visible articles associated to the page required sorted by art chapter (lower number first).
+     *
+     * @return array A list of visible articles.
+     */
+    public function findVisibleArticlesByPage($pageId,$artNb) {
+        //initialiaze the offset
+        if($pageId==1){
+            $offset = 0;
+            $limit = 1*$artNb;
+        }
+        else{
+            $offset = ($pageId-1)*$artNb ;
+            $limit = $artNb ;
+        }
+
+
+        $sql = "select * from t_article where art_visible='1' order by art_chapter asc limit $limit offset $offset ";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $articles = array();
+        foreach ($result as $row) {
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
+        }
+        return $articles;
+    }
+
+    /**
      * Returns an article matching the supplied id if visible else return the next one until find a visible article.
      *
      * @param integer $id The article id.
@@ -160,6 +189,8 @@ class ArticleManager extends Manager
             return $this->findNextVisible($id+1);
         }
     }
+
+
 
     /**
      * Returns an the last visible chapter
@@ -269,4 +300,16 @@ class ArticleManager extends Manager
         return $result;
     }
 
+    /**
+     * Count the visible articles number
+     *
+     * @return integer
+     */
+
+    public function articlesVisibleCount() {
+        $sql = "select count(art_id) as total from t_article where art_visible=1";
+        $result = $this->getDb()->fetchColumn($sql);
+
+        return $result;
+    }
 }

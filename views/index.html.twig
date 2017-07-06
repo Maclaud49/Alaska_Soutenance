@@ -44,10 +44,30 @@
         </div>
     </div>
 {% for article in articlesVisibleDesc %}
-<article class="text-center article-content">
-    <h2>Chapitre - {{ article.chapter }} -<br> <a class="articleTitle" href="{{ path('article', { 'artChap': article.chapter }) }}">{{ article.title  }}</a></h2>
-    <article>{% autoescape false %}{{ article.content | truncate(250, true, '...')}}{% endautoescape %} <button type="button" class="btn btn-link"><a class="articleTitle" href="{{ path('article', { 'artChap': article.chapter }) }}">Lire la suite</a></button></article>
+<section class="text-center article-content">
+    <h2>Chapitre - {{ article.chapter }} -<br>
+        <a class="articleTitle" href="{{ path('article', { 'artChap': article.chapter }) }}">{{ article.title  }}</a>
+    </h2>
+    <article>{% autoescape false %}{{ article.content | truncate(250, true, '...')}}{% endautoescape %}
+        <button type="button" class="btn btn-link"><a class="articleTitle" href="{{ path('article', { 'artChap': article.chapter }) }}">Lire la suite</a></button>
+    </article>
 
-</article>
+</section>
+
 {% endfor %}
+
+    <nav aria-label="..." class="text-center">
+        <ul class="pagination pagination-lg">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+
+            {%  for i in range(1,pagesNb) %}
+            <li class="page-item"><a class="page-link" href="{{ path('index_page', { 'pageId': i }) }}">{{ i }}</a></li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path('index_page', { 'pageId': pageId+1 }) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

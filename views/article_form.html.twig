@@ -7,13 +7,13 @@
 {% block content %}
     <h2 class="text-center">{{ block('title') }}</h2>
     {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="alert alert-success fade in">
+        <div class="alert alert-success fade in text-center">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ flashMessage }}
         </div>
     {% endfor %}
     {% for flashMessage in app.session.flashbag.get('error') %}
-        <div class="alert alert-warning fade in">
+        <div class="alert alert-warning fade in text-center">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ flashMessage }}
         </div>

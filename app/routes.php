@@ -4,6 +4,10 @@
 $app->get('/', "Alaska\Controller\HomeController::indexAction")
 ->bind('home');
 
+// Home page by pages
+$app->get('/page/{pageId}', "Alaska\Controller\HomeController::indexPageAction")
+    ->bind('index_page');
+
 // Detailed info about an article
 $app->match('/article/{artChap}', "Alaska\Controller\HomeController::articleAction")
 ->bind('article');

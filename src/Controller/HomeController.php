@@ -15,15 +15,51 @@ use Symfony\Component\HttpFoundation\Cookie;
 class HomeController {
 
     /**
+     * Home page with page control controller.
+     *
+     * @param Application $app Silex application
+     */
+    public function indexPageAction($pageId,Application $app) {
+        //Number of articles displayed
+        $articlesPerPage = 2;
+        $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
+        $pagesNb = ceil($articlesVisible_total/$articlesPerPage);
+
+        if(!$pagesNb>1){
+            return $app->redirect($app['url_generator']->generate('index' ));
+        }
+        else{
+            $articlesVisibleDesc = $app['manager.article']->findVisibleArticlesByPage($pageId,$articlesPerPage);
+            $articlesVisible = $app['manager.article']->findAllVisible();
+            return $app['twig']->render('index.html.twig', array(
+                'articlesVisibleDesc' => $articlesVisibleDesc,
+                'articlesVisible' => $articlesVisible,
+                'pageId' => $pageId,
+                'pagesNb' => $pagesNb));
+        }
+
+    }
+
+    /**
      * Home page controller.
      *
      * @param Application $app Silex application
      */
-    public function indexAction(Application $app) {
-        $articlesVisibleDesc = $app['manager.article']->findAllVisibleDesc();
-        $articlesVisible = $app['manager.article']->findAllVisible();
-        return $app['twig']->render('index.html.twig', array('articlesVisibleDesc' => $articlesVisibleDesc,
-            'articlesVisible' => $articlesVisible));
+    public function indexAction(Application $app)
+    {
+        //Number of articles displayed
+        $articlesPerPage = 2;
+        $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
+        $pagesNb = ceil($articlesVisible_total / $articlesPerPage);
+
+        if (!$pagesNb > 1) {
+            $articlesVisibleDesc = $app['manager.article']->findAllVisibleDesc($articlesPerPage);
+            $articlesVisible = $app['manager.article']->findAllVisible();
+            return $app['twig']->render('index.html.twig', array('articlesVisibleDesc' => $articlesVisibleDesc,
+                'articlesVisible' => $articlesVisible));
+        }
+        else
+            return $app->redirect($app['url_generator']->generate('index_page',array('pageId' =>1) ));
     }
 
     /**
@@ -46,6 +82,7 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function articleAction($artChap, Request $request, Application $app) {
+
         //Display article depending on authorization
         if($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $article = $app['manager.article']->find($artChap);
