@@ -20,8 +20,10 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function indexAction(Application $app) {
+        $articlesVisibleDesc = $app['manager.article']->findAllVisibleDesc();
         $articlesVisible = $app['manager.article']->findAllVisible();
-        return $app['twig']->render('index.html.twig', array('articlesVisible' => $articlesVisible));
+        return $app['twig']->render('index.html.twig', array('articlesVisibleDesc' => $articlesVisibleDesc,
+            'articlesVisible' => $articlesVisible));
     }
 
     /**

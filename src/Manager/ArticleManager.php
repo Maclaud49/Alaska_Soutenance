@@ -25,12 +25,30 @@ class ArticleManager extends Manager
     }
 
     /**
-     * Return a list of all visible articles, sorted by date (most recent first).
+     * Return a list of all visible articles, sorted by art chapter (higher number first).
+     *
+     * @return array A list of all visible articles.
+     */
+    public function findAllVisibleDesc() {
+        $sql = "select * from t_article where art_visible='1' order by art_chapter desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $articles = array();
+        foreach ($result as $row) {
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
+        }
+        return $articles;
+    }
+
+    /**
+     * Return a list of all visible articles, sorted by art chapter (lower number first).
      *
      * @return array A list of all visible articles.
      */
     public function findAllVisible() {
-        $sql = "select * from t_article where art_visible='1' order by art_id desc";
+        $sql = "select * from t_article where art_visible='1' order by art_chapter asc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
