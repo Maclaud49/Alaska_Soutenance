@@ -5,7 +5,7 @@ $app->get('/', "Alaska\Controller\HomeController::indexAction")
 ->bind('home');
 
 // Detailed info about an article
-$app->match('/article/{id}', "Alaska\Controller\HomeController::articleAction")
+$app->match('/article/{artChap}', "Alaska\Controller\HomeController::articleAction")
 ->bind('article');
 
 // Login form
@@ -25,7 +25,7 @@ $app->match('/admin/article/add', "Alaska\Controller\AdminController::addArticle
 ->bind('admin_article_add');
 
 // Edit an existing article
-$app->match('/admin/article/{id}/edit', "Alaska\Controller\AdminController::editArticleAction")
+$app->match('/admin/article/{artChap}/edit', "Alaska\Controller\AdminController::editArticleAction")
 ->bind('admin_article_edit');
 
 // Remove an article
@@ -55,6 +55,10 @@ $app->get('/admin/user/{id}/delete', "Alaska\Controller\AdminController::deleteU
 // Report a comment
 $app->match('/comment/{idComment}/report', "Alaska\Controller\HomeController::commentReportAction")
     ->bind('report_comment');
+
+// Next article
+$app->match('/article/{artChap}/next', "Alaska\Controller\HomeController::nextArticleAction")
+    ->bind('next_article');
 
 /*// Set a cookie
 $app->match('/index/{username}/setcookie', "Alaska\Controller\HomeController::setCookietAction")

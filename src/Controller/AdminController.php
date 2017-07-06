@@ -72,10 +72,10 @@ class AdminController {
      * @param Request $request Incoming request
      * @param Application $app Silex application
      */
-    public function editArticleAction($id, Request $request, Application $app)
+    public function editArticleAction($artChap, Request $request, Application $app)
     {
 
-        $article = $app['manager.article']->find($id);
+        $article = $app['manager.article']->find($artChap);
         $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articles = $app['manager.article']->findAll();
         $articlesVisible = $app['manager.article']->findAllVisible();

@@ -36,7 +36,7 @@
                                 <span class="glyphicon glyphicon-th-list"></span> Sommaire<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% for article in articlesVisible %}
-                                    <li><a href="{{ path('article', { 'id': article.id }) }}">Ch. {{ article.chapter  }} - {{ article.title  }}</a></li>
+                                    <li><a href="{{ path('article', { 'artChap': article.chapter }) }}">Ch. {{ article.chapter  }} - {{ article.title  }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -45,7 +45,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-book"></span> Dernier chapitre lu<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path('article', { 'id': app.user.lastViewArt }) }}">Chapitre {{ app.user.lastViewArt }} </a></li>
+                                    <li><a href="{{ path('article', { 'artChap': app.user.lastViewArt }) }}">Chapitre {{ app.user.lastViewArt }} </a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

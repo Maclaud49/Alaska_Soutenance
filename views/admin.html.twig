@@ -43,7 +43,7 @@
                         </thead>
                         {% for article in articles %}
                             <tr>
-                                <td><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></td>
+                                <td><a class="articleTitle" href="{{ path('article', { 'artChap': article.chapter }) }}">{{ article.title }}</a></td>
                                 <td class="text-center">{{ article.chapter }}</td>
                                 <td class="text-center">{{ article.commentsNb }}</td>
                                 <td class="text-center">{{ article.viewsNb }}</td>
@@ -55,8 +55,8 @@
                                 </td>
                                 <td>{{ article.lastUpdatedDate }}</td>
                                 <td>
-                                    <a href="{{ path('admin_article_edit', { 'id': article.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
-                                    <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#articleDialog{{ article.id }}"><span class="glyphicon glyphicon-remove"></span>
+                                    <a href="{{ path('admin_article_edit', { 'artChap': article.chapter }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#articleDialog{{ article.chapter }}"><span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                     <div class="modal fade" id="articleDialog{{ article.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -102,7 +102,7 @@
                         </thead>
                         {% for comment in comments %}
                             <tr>
-                                <td><a class="articleTitle" href="{{ path('article', { 'id': comment.article.id }) }}">{{ comment.article.title }}</a></td>
+                                <td><a class="articleTitle" href="{{ path('article', { 'artChap': comment.article.chapter }) }}">{{ comment.article.title }}</a></td>
                                 <td class="text-center">{{ comment.article.chapter }}</td>
                                 <td>{{ comment.author.username }}</td>
                                 <td>{{ comment.content | truncate(60) }}</td>
@@ -151,7 +151,7 @@
                         </thead>
                         {% for commentReported in commentsReported %}
                             <tr>
-                                <td><a class="articleTitle" href="{{ path('article', { 'id': commentReported.article.id }) }}">{{ commentReported.content | truncate(60) }}</a></td>
+                                <td><a class="articleTitle" href="{{ path('article', { 'artChap': commentReported.article.chapter }) }}">{{ commentReported.content | truncate(60) }}</a></td>
                                 <td>{{ commentReported.author.username }}</td>
                                 <td class="text-center">{{ commentReported.CommentReportedNb }}</td>
                                 <td>

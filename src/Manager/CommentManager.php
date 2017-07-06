@@ -49,9 +49,10 @@ class CommentManager extends Manager
      *
      * @return array A list of all comments for the article.
      */
-    public function findAllByArticle($articleId) {
+    public function findAllByArticle($artchap) {
         // The associated article is retrieved only once
-        $article = $this->articleManager->find($articleId);
+        $article = $this->articleManager->find($artchap);
+        $articleId= $article->getId();
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
@@ -200,7 +201,7 @@ class CommentManager extends Manager
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article
             $articleId = $row['art_id'];
-            $article = $this->articleManager->find($articleId);
+            $article = $this->articleManager->findById($articleId);
             $comment->setArticle($article);
         }
         if (array_key_exists('usr_id', $row)) {

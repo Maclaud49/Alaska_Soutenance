@@ -97,7 +97,7 @@ $app['manager.commentReported'] = function ($app) {
             $message = 'La page demandée n\'existe pas.';
             break;
         case 500:
-            $message = 'L\article est en cours de modification';
+            $message = 'L\article est en cours de création ou de modification';
             break;
         default:
             $message = 'Une erreur inconnue est survenue';

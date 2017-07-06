@@ -12,7 +12,7 @@ class ArticleManager extends Manager
      * @return array A list of all articles.
      */
     public function findAll() {
-        $sql = "select * from t_article order by art_id desc";
+        $sql = "select * from t_article order by art_chapter desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -66,7 +66,7 @@ class ArticleManager extends Manager
      * @return array A list of all draft articles.
      */
     public function findAllDraft() {
-        $sql = "select * from t_article where art_visible='0' order by art_id desc";
+        $sql = "select * from t_article where art_visible='0' order by art_chapter desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -81,11 +81,29 @@ class ArticleManager extends Manager
     /**
      * Returns an article matching the supplied id.
      *
-     * @param integer $id The article id.
+     * @param integer $id The article chapter.
      *
      * @return \Alaska\Domain\Article|throws an exception if no matching article is found
      */
     public function find($id) {
+        $sql = "select * from t_article where art_chapter=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if ($row) {
+            return $this->buildDomainObject($row);
+        } else {
+            throw new \Exception("L'article est en cours de modification ");
+        }
+    }
+
+    /**
+     * Returns an article matching the supplied id.
+     *
+     * @param integer $id The article id.
+     *
+     * @return \Alaska\Domain\Article|throws an exception if no matching article is found
+     */
+    public function findById($id) {
         $sql = "select * from t_article where art_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
@@ -97,14 +115,14 @@ class ArticleManager extends Manager
     }
 
     /**
-     * Returns an article matching the supplied id with visible condition.
-     *
-     * @param integer $id The article id.
-     *
-     * @return \Alaska\Domain\Article|throws an exception if no matching article is found
-     */
+ * Returns an article matching the supplied id with visible condition.
+ *
+ * @param integer $id The article id.
+ *
+ * @return \Alaska\Domain\Article|throws an exception if no matching article is found
+ */
     public function findVisible($id) {
-        $sql = "select * from t_article where art_id=? and art_visible=1";
+        $sql = "select * from t_article where art_chapter=? and art_visible=1";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
         if ($row) {
@@ -113,6 +131,53 @@ class ArticleManager extends Manager
             throw new \Exception("L'article est en cours de modification");
         }
     }
+
+    /**
+     * Returns an article matching the supplied id if visible else return the next one until find a visible article.
+     *
+     * @param integer $id The article id.
+     *
+     * @return \Alaska\Domain\Article|
+     */
+    public function findNextVisible($id) {
+
+        //Chapitre visible max
+        $result = $this->findChapterMaxVisible();
+
+        $sql = "select * from t_article where art_chapter=? and art_visible=1";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+
+
+        if ($row) {
+            return $this->buildDomainObject($row);
+        }
+        else if ($id+1>$result){
+            $message = "No next";
+            return $message;
+        }
+        else {
+            return $this->findNextVisible($id+1);
+        }
+    }
+
+    /**
+     * Returns an the last visible chapter
+     *
+     *
+     * @return \Alaska\Domain\Article|throws an exception if no chapter is found
+     */
+    public function findChapterMaxVisible() {
+        $sql = "select max(art_chapter) as chapterMax from t_article where art_visible=1";
+        $result = $this->getDb()->fetchColumn($sql);
+
+        if ($result) {
+            return $result;
+        } else {
+            throw new \Exception("Pas de chapitre");
+        }
+    }
+
 
     /**
      * Saves an article into the database.

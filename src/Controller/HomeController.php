@@ -45,9 +45,16 @@ class HomeController {
      * @param Request $request Incoming request
      * @param Application $app Silex application
      */
-    public function articleAction($id, Request $request, Application $app) {
-        $article = $app['manager.article']->findVisible($id);
+    public function articleAction($artChap, Request $request, Application $app) {
+        //Display article depending on authorization
+        if($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
+            $article = $app['manager.article']->find($artChap);
+        }
+        else{
+            $article = $app['manager.article']->findVisible($artChap);
+        }
         $articlesVisible = $app['manager.article']->findAllVisible();
+        $chapterMax = $app['manager.article']->findChapterMaxVisible();
 
         //Add 1 to the article view counter if visitor
         if (!$app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -75,13 +82,35 @@ class HomeController {
             }
             $commentFormView = $commentForm->createView();
         }
-        $comments = $app['manager.comment']->findAllByArticle($id);
-        $article = $app['manager.article']->findVisible($id);
+        $comments = $app['manager.comment']->findAllByArticle($artChap);
+
         return $app['twig']->render('article.html.twig', array(
             'article' => $article,
             'comments' => $comments,
             'commentForm' => $commentFormView,
-            'articlesVisible' => $articlesVisible));
+            'articlesVisible' => $articlesVisible,
+            'chapterMax' => $chapterMax));
+    }
+
+    /**
+     * Article details controller.
+     *
+     * @param integer $id Article id
+     * @param Request $request Incoming request
+     * @param Application $app Silex application
+     */
+    public function nextArticleAction($artChap, Request $request, Application $app) {
+        $nextArticleVisible = $app['manager.article']->findNextVisible($artChap);
+        $articlesVisible = $app['manager.article']->findAllVisible();
+        //Si pas d'article suivant
+        if($nextArticleVisible =="No next"){
+            $app['session']->getFlashBag()->add('warning', 'Il n\'y a pas de prochain article pour le moment.');
+            return $app->redirect($app['url_generator']->generate('article',array('artChap' =>$artChap-1) ));
+        }
+        else {
+            return $app->redirect($app['url_generator']->generate('article',array('artChap' =>$nextArticleVisible->getChapter()) ));
+        }
+
     }
     
     /**
