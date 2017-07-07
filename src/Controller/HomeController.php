@@ -23,14 +23,14 @@ class HomeController {
         //Number of articles displayed
         $articlesPerPage = 2;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
-        $pagesNb = ceil($articlesVisible_total/$articlesPerPage);
+        $pageNb = ceil($articlesVisible_total/$articlesPerPage);
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['user'];
             $user->setLastConnectedDate(date("Y-m-d H:i:s"));
             $app['manager.user']->save($user);
         }
 
-        if(!$pagesNb>1){
+        if(!$pageNb>1){
             return $app->redirect($app['url_generator']->generate('index' ));
         }
         else{
@@ -40,7 +40,7 @@ class HomeController {
                 'articlesVisibleDesc' => $articlesVisibleDesc,
                 'articlesVisible' => $articlesVisible,
                 'pageId' => $pageId,
-                'pagesNb' => $pagesNb));
+                'pageNb' => $pageNb));
         }
 
     }
@@ -55,14 +55,14 @@ class HomeController {
         //Number of articles displayed
         $articlesPerPage = 2;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
-        $pagesNb = ceil($articlesVisible_total / $articlesPerPage);
+        $pageNb = ceil($articlesVisible_total / $articlesPerPage);
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['user'];
             $user->setLastConnectedDate(date("Y-m-d H:i:s"));
             $app['manager.user']->save($user);
         }
 
-        if (!$pagesNb > 1) {
+        if (!$pageNb > 1) {
             $articlesVisibleDesc = $app['manager.article']->findAllVisibleDesc($articlesPerPage);
             $articlesVisible = $app['manager.article']->findAllVisible();
             return $app['twig']->render('index.html.twig', array('articlesVisibleDesc' => $articlesVisibleDesc,
