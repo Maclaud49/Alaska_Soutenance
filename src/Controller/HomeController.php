@@ -21,18 +21,28 @@ class HomeController {
      */
     public function indexPageAction($pageId,Application $app) {
         //Number of articles displayed
-        $articlesPerPage = 2;
+        $articlesPerPage = 3;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
         $pageNb = ceil($articlesVisible_total/$articlesPerPage);
+        //If page nb does not exist send to error page
+        if ($pageId >$pageNb){
+            return $app['twig']->render('error.html.twig', array(
+                'message' => 'La page n\'existe pas'));
+        }
+
+        //If connected user, refresh last connected date
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['user'];
             $user->setLastConnectedDate(date("Y-m-d H:i:s"));
             $app['manager.user']->save($user);
         }
 
+        //If only 1 page, send to normal index
         if(!$pageNb>1){
             return $app->redirect($app['url_generator']->generate('index' ));
         }
+
+        //display index with page system
         else{
             $articlesVisibleDesc = $app['manager.article']->findVisibleArticlesByPage($pageId,$articlesPerPage);
             $articlesVisible = $app['manager.article']->findAllVisible();
@@ -52,7 +62,7 @@ class HomeController {
     public function indexAction(Application $app)
     {
         //Number of articles displayed
-        $articlesPerPage = 2;
+        $articlesPerPage = 3;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
         $pageNb = ceil($articlesVisible_total / $articlesPerPage);
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
