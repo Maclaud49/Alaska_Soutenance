@@ -17,7 +17,6 @@ class ArticleType extends AbstractType
         $builder
                 ->add('title', TextType::class, array(
                     'label'       => 'Titre',
-
                     'required'    => true,
                     'constraints' => array(
                         new Assert\NotBlank(), 
@@ -29,8 +28,7 @@ class ArticleType extends AbstractType
                 ))
                 ->add('content', TextareaType::class, array(
                     'label'       => 'Contenu',
-                    'label_attr' => array('id' => 'editor'),
-                    'required'    => true,
+                    'required'    => false,
                     'constraints' => new Assert\NotBlank(array('message' => 'Votre article n\a pas de contenu'))))
 
                 ->add('visible', CheckboxType::class, array(
@@ -41,6 +39,7 @@ class ArticleType extends AbstractType
                 ->add('chapter', NumberType::class, array(
                     'label'       => 'Chapitre',
                     'required'    => true,
+                    'invalid_message'=>'Merci de saisir un chiffre',
                     'constraints' => array(
                         new Assert\NotBlank(),
                         new Assert\Range(array(
