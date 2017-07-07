@@ -24,6 +24,11 @@ class HomeController {
         $articlesPerPage = 2;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
         $pagesNb = ceil($articlesVisible_total/$articlesPerPage);
+        if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $app['user'];
+            $user->setLastConnectedDate(date("Y-m-d H:i:s"));
+            $app['manager.user']->save($user);
+        }
 
         if(!$pagesNb>1){
             return $app->redirect($app['url_generator']->generate('index' ));
@@ -51,6 +56,11 @@ class HomeController {
         $articlesPerPage = 2;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
         $pagesNb = ceil($articlesVisible_total / $articlesPerPage);
+        if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $app['user'];
+            $user->setLastConnectedDate(date("Y-m-d H:i:s"));
+            $app['manager.user']->save($user);
+        }
 
         if (!$pagesNb > 1) {
             $articlesVisibleDesc = $app['manager.article']->findAllVisibleDesc($articlesPerPage);
@@ -59,6 +69,7 @@ class HomeController {
                 'articlesVisible' => $articlesVisible));
         }
         else
+
             return $app->redirect($app['url_generator']->generate('index_page',array('pageId' =>1) ));
     }
 
