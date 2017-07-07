@@ -72,10 +72,12 @@
         <div id="content">{% block content %}{% endblock %}</div>
         <footer class="footer">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p>Bonne lecture {{ app.user.username }} !</p>
+                <a href="{{ path('credits') }}">Crédits</a>
             {% else %}
                 <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">s'enregistrer</a>
+                <a href="{{ path('credits') }}">Crédits</a>
             {% endif %}
+
         </footer>
     </div>
     

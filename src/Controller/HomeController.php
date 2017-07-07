@@ -42,7 +42,6 @@ class HomeController {
                 'pageId' => $pageId,
                 'pageNb' => $pageNb));
         }
-
     }
 
     /**
@@ -229,4 +228,17 @@ class HomeController {
             $app['session']->getFlashBag()->add('warning', 'Le commentaire a été signalé.');
             return $app->redirect($app['url_generator']->generate('article', array('id' => $article)));
         }
+
+    /**
+     * User login controller.
+     *
+     * @param Request $request Incoming request
+     * @param Application $app Silex application
+     */
+    public function creditsAction(Application $app) {
+        $articlesVisible = $app['manager.article']->findAllVisible();
+        return $app['twig']->render('credits.html.twig', array(
+            'articlesVisible' => $articlesVisible
+        ));
+    }
 }

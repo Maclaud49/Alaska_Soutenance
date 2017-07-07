@@ -1,0 +1,19 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Crédits!{% endblock %}
+
+{% block content %}
+    <div class="row text-center" style ="margin:100px 0 100px 0">
+        <div class="col-lg-3 col-xs-12 ">
+            <img class="img-responsive" src="{{ asset('/images/wiki.png') }}" height="150px" width="150px" alt="Logo Wiki" style ="margin-right:auto;margin-left:auto"/>
+        </div>
+        <div class=" col-lg-9 col-xs-12">
+            <h2>
+                <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.fr">Contenu soumis à la licence CC-BY-SA</a><br>
+            Source : Article <em><a href="http://fr.wikipedia.org/wiki/Alaska">Alaska</a></em> de
+            <a href="http://fr.wikipedia.org/">Wikipédia en français</a>
+            <a href="http://fr.wikipedia.org/w/index.php?title=Alaska&action=history">(auteurs)</a>
+            </h2>
+        </div>
+    </div>
+{% endblock %}
