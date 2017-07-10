@@ -76,6 +76,11 @@ label.required:after {
     line-height:50px;
 }
 
+.mentions_legales{
+    text-align: justify;
+    margin-bottom:20px
+}
+
 @media screen and (max-width: 500px){
     .carousel-caption h2{
         font-size:1em;

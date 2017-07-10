@@ -245,9 +245,9 @@ class HomeController {
      * @param Request $request Incoming request
      * @param Application $app Silex application
      */
-    public function creditsAction(Application $app) {
+    public function mentionsLegalesAction(Application $app) {
         $articlesVisible = $app['manager.article']->findAllVisible();
-        return $app['twig']->render('credits.html.twig', array(
+        return $app['twig']->render('mentions_legales.html.twig', array(
             'articlesVisible' => $articlesVisible
         ));
     }

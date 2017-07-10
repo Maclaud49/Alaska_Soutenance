@@ -5,8 +5,8 @@ $app->get('/', "Alaska\Controller\HomeController::indexAction")
 ->bind('home');
 
 // Credits page
-$app->get('/Credits', "Alaska\Controller\HomeController::creditsAction")
-    ->bind('credits');
+$app->get('/mentions-legales', "Alaska\Controller\HomeController::mentionsLegalesAction")
+    ->bind('mentions_legales');
 
 // Home page by pages
 $app->get('/page/{pageId}', "Alaska\Controller\HomeController::indexPageAction")

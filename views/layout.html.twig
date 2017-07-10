@@ -72,10 +72,10 @@
         <div id="content">{% block content %}{% endblock %}</div>
         <footer class="footer">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('credits') }}">Crédits</a>
+                <a href="{{ path('mentions_legales') }}">Mentions légales</a>
             {% else %}
-                <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">s'enregistrer</a>
-                <a href="{{ path('credits') }}">Crédits</a>
+                <a href="{{ path('login') }}">Se connecter</a> ou <a href="{{ path('register') }}">s'enregistrer</a><br>
+                <a href="{{ path('mentions_legales') }}">Mentions légales</a>
             {% endif %}
 
         </footer>
