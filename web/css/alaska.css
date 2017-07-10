@@ -12,7 +12,6 @@
 body {
     padding-top: 50px;
 
-
 }
 
 .footer {
@@ -38,10 +37,6 @@ body {
 label.required:after {
     content: " *";
     color: #c12e2a;
-}
-
-.fond_image{
-    background: url("../images/theme.jpg") no-repeat center fixed;
 }
 
 .tales {
@@ -76,7 +71,7 @@ label.required:after {
     line-height:50px;
 }
 
-.mentions_legales{
+.mentions-notices{
     text-align: justify;
     margin-bottom:20px
 }
