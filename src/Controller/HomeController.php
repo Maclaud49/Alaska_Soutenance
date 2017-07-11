@@ -19,11 +19,12 @@ class HomeController {
      *
      * @param Application $app Silex application
      */
-    public function indexPageAction($pageId,Application $app) {
+    public function indexPageAction($pageId,Application $app, Request $request) {
         //Number of articles displayed
         $articlesPerPage = 3;
         $articlesVisible_total = $app['manager.article']->articlesVisibleCount();
         $pageNb = ceil($articlesVisible_total/$articlesPerPage);
+
         //If page nb does not exist send to error page
         if ($pageId >$pageNb){
             return $app['twig']->render('error.html.twig', array(
@@ -50,7 +51,8 @@ class HomeController {
                 'articlesVisibleDesc' => $articlesVisibleDesc,
                 'articlesVisible' => $articlesVisible,
                 'pageId' => $pageId,
-                'pageNb' => $pageNb));
+                'pageNb' => $pageNb,
+                ));
         }
     }
 
@@ -180,12 +182,11 @@ class HomeController {
         $articlesVisible = $app['manager.article']->findAllVisible();
             return $app['twig']->render('login.html.twig', array(
             'error'         => $app['security.last_error']($request),
+            'articlesVisible' => $articlesVisible,
             'last_username' => $app['session']->get('_security.last_username'),
-            'articlesVisible' => $articlesVisible
         ));
     }
 
-    //$request->cookies->get('username')
 
     /**
      * User register controller.

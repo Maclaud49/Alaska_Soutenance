@@ -16,16 +16,20 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-
+// Register Twig services
 $app['twig'] = $app->extend('twig', function(Twig_Environment $twig, $app) {
     $twig->addExtension(new Twig_Extensions_Extension_Text());
     return $twig;
 });
 
+// Register Asset services ({{ asset('/css/alaska.css') }})
 $app->register(new Silex\Provider\AssetServiceProvider(), array(
     'assets.version' => 'v1'
 ));
+// Register session services
 $app->register(new Silex\Provider\SessionServiceProvider());
+
+//Register authentification and authorization services
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' => array(
         'secured' => array(
@@ -33,6 +37,9 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'anonymous' => true,
             'logout' => true,
             'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+            'remember_me' => array(
+                'key' => MD5('secretAlaska'),
+            ),
             'users' => function () use ($app) {
                 return new Alaska\Manager\UserManager($app['db']);
             },
@@ -45,6 +52,12 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
         array('^/admin', 'ROLE_ADMIN'),
     ),
 ));
+
+//Register remember me services
+$app->register(new Silex\Provider\RememberMeServiceProvider());
+
+
+
 //Register form services
 $app->register(new Silex\Provider\FormServiceProvider());
 //Register validator data services
