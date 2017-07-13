@@ -52,17 +52,20 @@ class AppTest extends WebTestCase
     public function provideUrls()
     {
         return array(
-            array('/'),
             array('/article/1'),
-            array('/login'),
+            array('/connexion'),
             array('/admin'),
-            array('/register'),
-            array('/admin/article/add'),
-            array('/admin/article/1/edit'),
-            array('/admin/comment/5/edit'),
-            array('/admin/user/add'),
-            array('/admin/user/1/edit'),
-            ); 
+            array('/enregistrement'),
+            array('/admin/article/ajouter'),
+            array('/admin/article/1/editer'),
+            array('/admin/commentaire/5/editer'),
+            array('/admin/utilisateur/ajouter'),
+            array('/admin/utilisateur/1/editer'),
+            array('/mentions-legales'),
+            array('/page/1'),
+            array('/connexion/oublie-mot-de-passe'),
+            array('/connexion/changer-mot-de-passe'),
+        );
     }
 
     //vendor\bin\phpunit.bat

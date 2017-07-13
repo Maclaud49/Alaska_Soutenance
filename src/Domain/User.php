@@ -57,6 +57,29 @@ class User implements UserInterface
     private $password;
 
     /**
+     * User new password.
+     *
+     * @var string
+     */
+    private $passwordNew;
+
+    /**
+     * @return string
+     */
+    public function getPasswordNew()
+    {
+        return $this->passwordNew;
+    }
+
+    /**
+     * @param string $passwordNew
+     */
+    public function setPasswordNew($passwordNew)
+    {
+        $this->passwordNew = $passwordNew;
+    }
+
+    /**
      * Salt that was originally used to encode the password.
      *
      * @var string

@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'layout_without_footer.html.twig' %}
 
 {% block title %}Identification{% endblock %}
 
@@ -36,6 +36,9 @@
             </div>
             <div>
                 <label class="checkbox-inline"><input type="checkbox" id="remember_me" name="_remember_me" checked>Rester connecté</label>
+            </div>
+            <div style="margin-top:10px">
+                 <a  href="{{ path('forgot_password') }}">Mot de passe oublié ?</a>
             </div>
         </div>
     </form>

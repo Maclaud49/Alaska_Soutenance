@@ -9,6 +9,7 @@ use Alaska\Domain\User;
 use Alaska\Form\Type\ArticleType;
 use Alaska\Form\Type\CommentType;
 use Alaska\Form\Type\UserType;
+use Alaska\Form\Type\ChangePasswordType;
 
 
 class AdminController {
@@ -40,15 +41,17 @@ class AdminController {
      */
     public function addArticleAction(Request $request, Application $app) {
         $article = new Article();
-        $article->setViewsNb(0);
         $articles = $app['manager.article']->findAll();
         $articlesVisible = $app['manager.article']->findAllVisible();
-        $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
+        //if form is submitted and accepted
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
             //if the chapter number is not used
             if ($app['manager.article']->checkChapter($article->getChapter())) {
+                $article->setViewsNb(0);
+                $article->setCommentsNb(0);
+                $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
                 $app['manager.article']->save($article);
                 $app['session']->getFlashBag()->add('success', 'L\'article a été créé.');
                 $app->get('/admin', "Alaska\Controller\AdminController::indexAction");
@@ -68,7 +71,7 @@ class AdminController {
     /**
      * Edit article controller.
      *
-     * @param integer $id Article id
+     * @param integer $artChap Article chapter
      * @param Request $request Incoming request
      * @param Application $app Silex application
      */
@@ -76,17 +79,18 @@ class AdminController {
     {
 
         $article = $app['manager.article']->find($artChap);
-        $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
         $articles = $app['manager.article']->findAll();
         $articlesVisible = $app['manager.article']->findAllVisible();
         $chapter=$article->getChapter();
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
         $articleForm->handleRequest($request);
+        //if form is submitted and accepted
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
             //if chapter changed
             if ($article->getChapter() != $chapter) {
                 //if the chapter number is not used
                 if ($app['manager.article']->checkChapter($article->getChapter())) {
+                    $article->setLastUpdatedDate(date("Y-m-d H:i:s"));
                     $app['manager.article']->save($article);
                     $app['session']->getFlashBag()->add('success', 'L\'article a été modifié.');
                     return $app->redirect($app['url_generator']->generate('admin'));
@@ -117,7 +121,6 @@ class AdminController {
     public function deleteArticleAction($id, Application $app) {
         // Delete all associated comments
         $app['manager.comment']->deleteAllByArticle($id);
-
         // Delete the article
         $app['manager.article']->delete($id);
         $app['session']->getFlashBag()->add('success', 'L\'article a été supprimé.');
@@ -137,6 +140,7 @@ class AdminController {
         $articlesVisible = $app['manager.article']->findAllVisible();
         $commentForm = $app['form.factory']->create(CommentType::class, $comment);
         $commentForm->handleRequest($request);
+        //if form is submitted and accepted
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $app['manager.comment']->save($comment);
             $app['session']->getFlashBag()->add('success', 'Le commentaire a été modifié.');
@@ -170,10 +174,22 @@ class AdminController {
     public function addUserAction(Request $request, Application $app) {
         $user = new User();
         $articlesVisible = $app['manager.article']->findAllVisible();
-        $user->setLastViewArt(1);
         $userForm = $app['form.factory']->create(UserType::class, $user);
         $userForm->handleRequest($request);
+        //if form is submitted and accepted
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $user1 = $app['manager.user']->loadUserByUsername($user->getUsername());
+            $user2 = $app['manager.user']->loadUserByEmail($user->getEmail());
+            //if username exist
+            if ($user1 != "No user") {
+                $app['session']->getFlashBag()->add('warning', 'Ce pseudo est déjà utilisé. Merci d\'en choisir un autre.');
+            }
+            //if email exist
+            else if($user2 !="No user"){
+                $app['session']->getFlashBag()->add('warning', 'Cette adresse email est déjà utilisée. Merci d\'en choisir une autre.');
+            }
+            //The email and username are confirmed not used, creation of user
+            else {
             // generate a random salt value
             $salt = substr(md5(time()), 0, 23);
             $user->setSalt($salt);
@@ -182,11 +198,12 @@ class AdminController {
             $encoder = $app['security.encoder.bcrypt'];
             // compute the encoded password
             $password = $encoder->encodePassword($plainPassword, $user->getSalt());
-            $user->setPassword($password); 
+            $user->setPassword($password);
+            $user->setLastViewArt(1);
             $app['manager.user']->save($user);
             $app['session']->getFlashBag()->add('success', 'L\'enregistrement s\'est bien déroulé.');
             return $app->redirect($app['url_generator']->generate('admin'));
-        }
+        }}
         return $app['twig']->render('user_form.html.twig', array(
             'title' => 'Nouvel utilisateur',
             'userForm' => $userForm->createView(),
@@ -205,6 +222,7 @@ class AdminController {
         $articlesVisible = $app['manager.article']->findAllVisible();
         $userForm = $app['form.factory']->create(UserType::class, $user);
         $userForm->handleRequest($request);
+        //if form is submitted and accepted
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $plainPassword = $user->getPassword();
             // find the encoder for the user
@@ -236,5 +254,41 @@ class AdminController {
         $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été supprimé.');
         // Redirect to admin home page
         return $app->redirect($app['url_generator']->generate('admin'));
+    }
+
+    /**
+     * Change password controller.
+     *
+     * @param Request $request Incoming request
+     * @param Application $app Silex application
+     */
+    public function changePasswordAction(Request $request, Application $app)
+    {
+        $articlesVisible = $app['manager.article']->findAllVisible();
+        $user = $app['user'];
+        $changePasswordForm = $app['form.factory']->create(ChangePasswordType::class, $user);
+        $changePasswordForm->handleRequest($request);
+        //if form is submitted and accepted
+        if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
+            $salt = substr(md5(time()), 0, 23);
+            $user->setSalt($salt);
+            $plainPassword = $user->getPasswordNew();
+            $encoder = $app['security.encoder.bcrypt'];
+            $password = $encoder->encodePassword($plainPassword, $user->getSalt());
+            $user->setPassword($password);
+            $app['manager.user']->save($user);
+            $app['session']->getFlashBag()->add('success', 'Votre mot de passe a été mis à jour.');
+
+            return $app['twig']->render('change_password_form.html.twig', array(
+                'title' => 'Vous souhaitez changer votre mot de passe?',
+                'changePasswordForm' => $changePasswordForm->createView(),
+                'articlesVisible' => $articlesVisible,
+            ));
+        }
+        return $app['twig']->render('change_password_form.html.twig', array(
+            'title' => 'Vous souhaitez changer votre mot de passe?',
+            'changePasswordForm' => $changePasswordForm->createView(),
+            'articlesVisible' => $articlesVisible,));
+
     }
 }

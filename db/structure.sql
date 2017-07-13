@@ -22,7 +22,7 @@ create table t_comment
     com_date timestamp default CURRENT_TIMESTAMP not null,
     art_id int not null,
     usr_id int not null,
-    com_reported int default '0' null,
+    com_reported int default '0'  not null,
     constraint fk_com_art
     foreign key (art_id) references db688769058.t_article (art_id)
 )

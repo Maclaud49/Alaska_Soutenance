@@ -67,6 +67,11 @@ label.required:after {
     font-size:2em;
 }
 
+.article-content img{
+    max-width:100%;
+    height: auto;
+}
+
 .footer{
     line-height:50px;
 }

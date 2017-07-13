@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'layout_without_footer.html.twig' %}
 {% form_theme userForm 'bootstrap_3_horizontal_layout.html.twig' %}
 {% set adminMenu = true %}
 
@@ -12,11 +12,12 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
-    {% if form_errors(userForm.password.first) %}
-        <div class="alert alert-danger">
-            {{ form_errors(userForm.password.first) }}
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="alert alert-warning fade in text-center">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
         </div>
-    {% endif %}
+    {% endfor %}
 
     <div class="well">
         {{ form_start(userForm) }}

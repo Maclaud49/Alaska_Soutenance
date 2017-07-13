@@ -94,7 +94,22 @@ class UserManager extends Manager implements UserProviderInterface
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
+           return "No user";
+    }
+
+    /**
+     * Load a user depending on the email adress
+     * @param string email adress.
+     */
+    public function loadUserByEmail($email)
+    {
+        $sql = "select * from t_user where usr_email=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($email));
+
+        if ($row)
+            return $this->buildDomainObject($row);
+        else
+            return false;
     }
 
     /**

@@ -13,7 +13,7 @@ ExceptionHandler::register();
 // Register service providers
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/../views',
+    'twig.path' =>__DIR__.'/../views'
 ));
 
 // Register Twig services
@@ -36,7 +36,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'pattern' => '^/',
             'anonymous' => true,
             'logout' => true,
-            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+            'form' => array('login_path' => '/connexion', 'check_path' => '/login_check'),
             'remember_me' => array(
                 'key' => MD5('secretAlaska'),
             ),
@@ -75,6 +75,21 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.level' => $app['monolog.level']
 ));
 
+//Register mail services
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+
+
+//Configure Swiftmail to use SMTP. (does not work online)
+$app->register(new Silex\Provider\SwiftmailerServiceProvider(),  array(
+        'swiftmailer.options' => array(
+        'host' => 'smtp.gmail.com',
+        'port' => 465,
+        'username' => "billet.simple.alaska@gmail.com",
+        'password' => "Alaska2017&",
+        'encryption' => 'ssl',
+        'auth_mode' => 'login'),
+));
+
 // Register services
 $app['manager.article'] = function ($app) {
     return new Alaska\Manager\ArticleManager($app['db']);
@@ -95,10 +110,6 @@ $app['manager.commentReported'] = function ($app) {
     return $commentReportedManager;
 };
 
-
-
-
-
 // Register error handler
 
 /*$app->error(function (\Exception $e, Request $request, $code) use ($app) {
@@ -114,6 +125,17 @@ $app['manager.commentReported'] = function ($app) {
             break;
         default:
             $message = 'Une erreur inconnue est survenue';
+    }
+    return $app['twig']->render('error.html.twig', array('message' => $message));
+});
+
+$app->error(function (\Swift_TransportException $e, Request $request, $code) use ($app) {
+    switch ($code) {
+        case 403:
+            $message = 'Accès refusé.';
+            break;
+        default:
+            $message = 'Le message n\'a pas pu être envoyé. Problème technique qui sera résolu très rapidement.';
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });*/
