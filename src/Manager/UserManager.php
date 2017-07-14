@@ -16,7 +16,7 @@ class UserManager extends Manager implements UserProviderInterface
      * @return array A list of all users.
      */
     public function findAll() {
-        $sql = "select * from t_user order by usr_role, usr_name";
+        $sql = "select * from t_user order by usr_lastConnectedDate desc";
         $result = $this->getDb()->fetchAll($sql);
 
         if($result){
