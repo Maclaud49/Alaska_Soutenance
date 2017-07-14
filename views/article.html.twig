@@ -111,7 +111,7 @@
     {% endfor %}
 
     <h3>Ajouter un commentaire</h3>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if is_granted('ROLE_USER') %}
    
         {{ form_start(commentForm) }}
 

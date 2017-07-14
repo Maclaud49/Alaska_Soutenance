@@ -3,7 +3,7 @@ create table t_article
     art_id int auto_increment
         primary key,
     art_title varchar(100) not null,
-    art_content varchar(2000) not null,
+    art_content longtext not null,
     art_chapter int not null,
     art_visible tinyint(1) not null,
     art_commentsNb int default '0' null,

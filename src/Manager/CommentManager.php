@@ -40,6 +40,7 @@ class CommentManager extends Manager
             $entities[$id] = $this->buildDomainObject($row);
         }
         return $entities;
+
     }
 
     /**
@@ -69,6 +70,7 @@ class CommentManager extends Manager
             $comments[$comId] = $comment;
         }
         return $comments;
+
     }
 
     /**
@@ -104,11 +106,13 @@ class CommentManager extends Manager
         $sql = "select * from t_comment where com_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
-        if ($row) {
+        if($row){
             return $this->buildDomainObject($row);
-        } else {
-            throw new \Exception("Pas d'identifiant correspondant" . $id);
         }
+        else{
+            throw new \Exception("Pas de commentaire à afficher");
+        }
+
     }
 
     /**
@@ -122,10 +126,11 @@ class CommentManager extends Manager
         $sql = "select * from t_comment where com_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($comId));
 
-        if ($row) {
+        if($row){
             return $row['art_id'];
-        } else {
-            throw new \Exception("Pas d'identifiant correspondant" . $comId);
+        }
+        else{
+            throw new \Exception("Pas d'article à afficher");
         }
     }
 

@@ -19,6 +19,7 @@ class UserManager extends Manager implements UserProviderInterface
         $sql = "select * from t_user order by usr_role, usr_name";
         $result = $this->getDb()->fetchAll($sql);
 
+        if($result){
         // Convert query result to an array of domain objects
         $entities = array();
         foreach ($result as $row) {
@@ -26,6 +27,10 @@ class UserManager extends Manager implements UserProviderInterface
             $entities[$id] = $this->buildDomainObject($row);
         }
         return $entities;
+        }
+        else{
+            throw new \Exception("Pas d\'utilisateurs à afficher");
+        }
     }
 
     /**

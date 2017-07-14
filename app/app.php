@@ -112,7 +112,7 @@ $app['manager.commentReported'] = function ($app) {
 
 // Register error handler
 
-/*$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
     switch ($code) {
         case 403:
             $message = 'Accès refusé.';
@@ -120,16 +120,14 @@ $app['manager.commentReported'] = function ($app) {
         case 404:
             $message = 'La page demandée n\'existe pas.';
             break;
-        case 500:
-            $message = 'L\'article est en cours de création ou de modification';
-            break;
         default:
-            $message = 'Une erreur inconnue est survenue';
+            $message = 'Une erreur est survenue';
     }
-    return $app['twig']->render('error.html.twig', array('message' => $message));
+    $articlesVisible = $app['manager.article']->findAllVisible();
+    return $app['twig']->render('error.html.twig', array('message' => $message,'articlesVisible' => $articlesVisible,));
 });
 
-$app->error(function (\Swift_TransportException $e, Request $request, $code) use ($app) {
+/*$app->error(function (\Swift_TransportException $e, Request $request, $code) use ($app) {
     switch ($code) {
         case 403:
             $message = 'Accès refusé.';

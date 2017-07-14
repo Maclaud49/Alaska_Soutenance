@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
                     'label'       => 'Titre',
                     'required'    => true,
                     'constraints' => array(
-                        new Assert\NotBlank(), 
+                        new Assert\NotBlank(array('message' => 'Votre titre n\'a pas de contenu')),
                         new Assert\Length(array(
                         'min' => 5,'max' => 100,
                         'minMessage' => 'Le titre doit faire au moins 5 lettres',
@@ -28,8 +28,9 @@ class ArticleType extends AbstractType
                 ))
                 ->add('content', TextareaType::class, array(
                     'label'       => 'Contenu',
+                    'label_attr' => array('class' => 'label-required'),
                     'required'    => false,
-                    'constraints' => new Assert\NotBlank(array('message' => 'Votre article n\a pas de contenu'))))
+                    'constraints' => new Assert\NotBlank(array('message' => 'Votre article n\'a pas de contenu'))))
 
                 ->add('visible', CheckboxType::class, array(
                     'label'       => 'Publier',
@@ -41,7 +42,7 @@ class ArticleType extends AbstractType
                     'required'    => true,
                     'invalid_message'=>'Merci de saisir un chiffre',
                     'constraints' => array(
-                        new Assert\NotBlank(),
+                        new Assert\NotBlank(array('message' => 'Choisissez un N° de chapitre')),
                         new Assert\Range(array(
                             'min' => 1,
                             'minMessage' => 'Le numéro du chapitre doit être au moins de 1')

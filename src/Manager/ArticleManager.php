@@ -15,14 +15,15 @@ class ArticleManager extends Manager
         $sql = "select * from t_article order by art_chapter desc";
         $result = $this->getDb()->fetchAll($sql);
 
-        // Convert query result to an array of domain objects
-        $articles = array();
-        foreach ($result as $row) {
-            $articleId = $row['art_id'];
-            $articles[$articleId] = $this->buildDomainObject($row);
-        }
-        return $articles;
+            // Convert query result to an array of domain objects
+            $articles = array();
+            foreach ($result as $row) {
+                $articleId = $row['art_id'];
+                $articles[$articleId] = $this->buildDomainObject($row);
+            }
+            return $articles;
     }
+
 
     /**
      * Return a list of all visible articles, sorted by art chapter (higher number first).
@@ -33,13 +34,13 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_visible='1' order by art_chapter desc limit $articlesPerPage ";
         $result = $this->getDb()->fetchAll($sql);
 
-        // Convert query result to an array of domain objects
-        $articles = array();
-        foreach ($result as $row) {
-            $articleId = $row['art_id'];
-            $articles[$articleId] = $this->buildDomainObject($row);
-        }
-        return $articles;
+            // Convert query result to an array of domain objects
+            $articles = array();
+            foreach ($result as $row) {
+                $articleId = $row['art_id'];
+                $articles[$articleId] = $this->buildDomainObject($row);
+            }
+            return $articles;
     }
 
     /**
@@ -51,13 +52,13 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_visible='1' order by art_chapter asc";
         $result = $this->getDb()->fetchAll($sql);
 
-        // Convert query result to an array of domain objects
-        $articles = array();
-        foreach ($result as $row) {
-            $articleId = $row['art_id'];
-            $articles[$articleId] = $this->buildDomainObject($row);
-        }
-        return $articles;
+            // Convert query result to an array of domain objects
+            $articles = array();
+            foreach ($result as $row) {
+                $articleId = $row['art_id'];
+                $articles[$articleId] = $this->buildDomainObject($row);
+            }
+            return $articles;
     }
 
     /**
@@ -69,13 +70,13 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_visible='0' order by art_chapter desc";
         $result = $this->getDb()->fetchAll($sql);
 
-        // Convert query result to an array of domain objects
-        $articles = array();
-        foreach ($result as $row) {
-            $articleId = $row['art_id'];
-            $articles[$articleId] = $this->buildDomainObject($row);
-        }
-        return $articles;
+            // Convert query result to an array of domain objects
+            $articles = array();
+            foreach ($result as $row) {
+                $articleId = $row['art_id'];
+                $articles[$articleId] = $this->buildDomainObject($row);
+            }
+            return $articles;
     }
 
     /**
@@ -89,10 +90,11 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_chapter=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
-        if ($row) {
+        if($row){
             return $this->buildDomainObject($row);
-        } else {
-            throw new \Exception("L'article est en cours de modification ");
+        }
+        else{
+            throw new \Exception("Pas d'article à afficher");
         }
     }
 
@@ -107,10 +109,11 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
-        if ($row) {
+        if($row){
             return $this->buildDomainObject($row);
-        } else {
-            throw new \Exception("L'article est en cours de modification ");
+        }
+        else{
+            throw new \Exception("Pas d'article à afficher");
         }
     }
 
@@ -125,11 +128,13 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_chapter=? and art_visible=1";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
-        if ($row) {
+        if($row){
             return $this->buildDomainObject($row);
-        } else {
-            throw new \Exception("L'article est en cours de modification");
         }
+        else{
+            throw new \Exception("Pas d'article à afficher");
+        }
+
     }
 
     /**
@@ -152,13 +157,13 @@ class ArticleManager extends Manager
         $sql = "select * from t_article where art_visible='1' order by art_chapter asc limit $limit offset $offset ";
         $result = $this->getDb()->fetchAll($sql);
 
-        // Convert query result to an array of domain objects
-        $articles = array();
-        foreach ($result as $row) {
-            $articleId = $row['art_id'];
-            $articles[$articleId] = $this->buildDomainObject($row);
-        }
-        return $articles;
+            // Convert query result to an array of domain objects
+            $articles = array();
+            foreach ($result as $row) {
+                $articleId = $row['art_id'];
+                $articles[$articleId] = $this->buildDomainObject($row);
+            }
+            return $articles;
     }
 
     /**
@@ -175,8 +180,6 @@ class ArticleManager extends Manager
 
         $sql = "select * from t_article where art_chapter=? and art_visible=1";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
-
-
 
         if ($row) {
             return $this->buildDomainObject($row);
@@ -202,10 +205,11 @@ class ArticleManager extends Manager
         $sql = "select max(art_chapter) as chapterMax from t_article where art_visible=1";
         $result = $this->getDb()->fetchColumn($sql);
 
-        if ($result) {
+        if($result){
             return $result;
-        } else {
-            throw new \Exception("Pas de chapitre");
+        }
+        else{
+            throw new \Exception("Pas d'article à afficher");
         }
     }
 
@@ -249,11 +253,11 @@ class ArticleManager extends Manager
     }
 
     /**
-     * Creates an Article object based on a DB row.
-     *
-     * @param array $row The DB row containing Article data.
-     * @return \Alaska\Domain\Article
-     */
+ * Creates an Article object based on a DB row.
+ *
+ * @param array $row The DB row containing Article data.
+ * @return \Alaska\Domain\Article
+ */
 
     protected function buildDomainObject(array $row) {
         $article = new Article();
@@ -270,8 +274,9 @@ class ArticleManager extends Manager
         return $article;
     }
 
+
     /**
-     * Check the chapter number is available.
+     * Check if the chapter number is available.
      *
      * @param int chapter number.
      * @return boolean

@@ -17,7 +17,7 @@ class ChangePasswordType extends AbstractType
 
             ->add('passwordNew', RepeatedType::class, array(
                 'type'            => PasswordType::class,
-                'constraints'     => new Assert\Length(['min' => 5]),
+                'constraints'     => new Assert\Length(array('min' => 6,'minMessage' => 'Le mot de passe doit être contenir au moins 6 caractères.')),
                 'invalid_message' => 'Le mot de passe doit être identique dans les 2 champs.',
                 'options'         => array(
                     'required' => true
@@ -26,6 +26,7 @@ class ChangePasswordType extends AbstractType
                     'label'       => 'Votre nouveau mot de passe',
                     'required'    => true,
                     'attr'        => ['placeholder' => 'Au moins 6 caractères'],
+
                 ),
                 'second_options'  => array(
                     'label'       => 'Retapez votre nouveau mot de passe',

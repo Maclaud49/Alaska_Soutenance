@@ -39,6 +39,11 @@ label.required:after {
     color: #c12e2a;
 }
 
+.label-required:after{
+    content: " *";
+    color: #c12e2a;
+}
+
 .tales {
     width: 100%;
 }
