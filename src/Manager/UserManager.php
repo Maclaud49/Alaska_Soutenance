@@ -99,7 +99,7 @@ class UserManager extends Manager implements UserProviderInterface
         if ($row)
             return $this->buildDomainObject($row);
         else
-           return "No user";
+           return false;
     }
 
     /**

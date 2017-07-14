@@ -181,11 +181,11 @@ class AdminController {
             $user1 = $app['manager.user']->loadUserByUsername($user->getUsername());
             $user2 = $app['manager.user']->loadUserByEmail($user->getEmail());
             //if username exist
-            if ($user1 != "No user") {
+            if ($user1 != false) {
                 $app['session']->getFlashBag()->add('warning', 'Ce pseudo est déjà utilisé. Merci d\'en choisir un autre.');
             }
             //if email exist
-            else if($user2 !="No user"){
+            else if($user2 != false){
                 $app['session']->getFlashBag()->add('warning', 'Cette adresse email est déjà utilisée. Merci d\'en choisir une autre.');
             }
             //The email and username are confirmed not used, creation of user

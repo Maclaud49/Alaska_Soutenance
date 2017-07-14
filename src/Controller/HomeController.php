@@ -113,6 +113,7 @@ class HomeController
         if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
             $comment = new Comment();
             $comment->setArticle($article);
+
             $user = $app['user'];
             //Register the viewed art id so we can welcome with the last read chapter
             $chapter = $article->getChapter();
@@ -195,11 +196,11 @@ class HomeController
             $user1 = $app['manager.user']->loadUserByUsername($user->getUsername());
             $user2 = $app['manager.user']->loadUserByEmail($user->getEmail());
             //if username is already used
-            if ($user1 != "No user") {
+            if ($user1 != false) {
                 $app['session']->getFlashBag()->add('warning', 'Ce pseudo est déjà utilisé. Merci d\'en choisir un autre.');
             }
             //if email address is already used
-            else if($user2 !="No user"){
+            else if($user2 != false){
                 $app['session']->getFlashBag()->add('warning', 'Cette adresse email est déjà utilisée. Merci d\'en choisir une autre.');
             }
             //else create new user
@@ -215,7 +216,7 @@ class HomeController
             $user->setPassword($password);
             $user->setRole('ROLE_USER');
             $app['manager.user']->save($user);
-            $app['session']->getFlashBag()->add('success', 'Vous êtes bien enregistré. Tapez votre pseudo et mot de passe pour vous loguer');
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien enregistré. Tapez votre pseudo et mot de passe pour vous connecter');
 
             return $app->redirect($app['url_generator']->generate('login'));
         }}
@@ -235,8 +236,7 @@ class HomeController
     public function commentReportAction($idComment, Application $app)
     {
         $comment = $app['manager.comment']->find($idComment);
-        $articleId = $app['manager.comment']->findArticleIdByComId($idComment);
-        $article= $app['manager.article']->find($articleId);
+        $article = $comment->getArticle();
         $articleChapter = $article->getChapter();
         $comment->setCommentReportedNb($comment->getCommentReportedNb() + 1);
         $app['manager.comment']->save($comment);

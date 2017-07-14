@@ -115,24 +115,6 @@ class CommentManager extends Manager
 
     }
 
-    /**
-     * Returns an article matching the comment id.
-     *
-     * @param integer $id The comment id
-     *
-     * @return \Alaska\Domain\Comment|throws an exception if no matching article is found
-     */
-    public function findArticleIdByComId($comId) {
-        $sql = "select * from t_comment where com_id=?";
-        $row = $this->getDb()->fetchAssoc($sql, array($comId));
-
-        if($row){
-            return $row['art_id'];
-        }
-        else{
-            throw new \Exception("Pas d'article à afficher");
-        }
-    }
 
     /**
      * Saves a comment into the database.
