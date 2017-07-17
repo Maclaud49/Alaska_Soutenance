@@ -111,7 +111,7 @@ $app['manager.commentReported'] = function ($app) {
 };
 
 // Register error handler
-
+/*
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     switch ($code) {
         case 403:
@@ -125,7 +125,7 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     }
     $articlesVisible = $app['manager.article']->findAllVisible();
     return $app['twig']->render('error.html.twig', array('message' => $message,'articlesVisible' => $articlesVisible,));
-});
+});*/
 
 /*$app->error(function (\Swift_TransportException $e, Request $request, $code) use ($app) {
     switch ($code) {
